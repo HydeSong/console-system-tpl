@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <title>图片预览</title>
+  <link rel="stylesheet" href="css/simplelightbox.min.css">
+  <style>
+    .dowebok {
+      width: 1000px;
+      margin: 0 auto;
+      font-size: 0;
+    }
+
+    .dowebok a {
+      display: inline-block;
+
+      margin: 15px;
+    }
+
+    .dowebok .big {
+      width: 300px;
+    }
+
+    .dowebok img {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dowebok" id="list">
+  </div>
+
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/simple-lightbox.min.js"></script>
+  <script>
+    $(function () {
+      var list = getQueryString('list')
+      var list2 = JSON.parse(decodeURI(list))
+      debugger
+      for (const item of list2) {
+        var $child = $('<a href="' + item.path +
+          '" class="big"><img style="max-width:300px;" src="' + item.path + '" alt="" title="' + decodeURI(item
+          .name) +
+          '"></a>')
+        $('#list').append($child)
+      }
+      $('.dowebok a').simpleLightbox()
+    })
+
+    function getQueryString(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+      var q = window.location.pathname.substr(1).match(reg_rewrite)
+      if (r != null) {
+        return unescape(r[2])
+      } else if (q != null) {
+        return unescape(q[2])
+      } else {
+        return null
+      }
+    }
+  </script>
+</body>
+
+</html>

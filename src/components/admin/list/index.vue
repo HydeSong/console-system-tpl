@@ -29,6 +29,7 @@
           >
             <div ref="filterWrap">
               <filters
+                ref="filter"
                 :compact="compact"
                 :filterFields="filterFields"
                 :setSelectFormatterVal="setSelectFormatterVal"
@@ -39,6 +40,7 @@
           </div>
           <filters
             v-else
+            ref="filter"
             :compact="compact"
             :filterFields="filterFields"
             :setSelectFormatterVal="setSelectFormatterVal"
@@ -62,7 +64,7 @@
               v-if="module.filterFields&&module.filterFields.length>0"
               style="margin-left:5px"
               icon="reload"
-              @click="$emit('resetResultParams');resultTableParams=config.resultTableParams || {};querySelectFormatterVal={};"
+              @click="resetFilters"
             >重置</a-button>
             <span style="text-align:right">
               &nbsp;&nbsp;
@@ -190,7 +192,7 @@
           :is="proxyComponentDialog2.component"
           @onResult="(data)=>proxyComponentDialog2.resultData=data"
           @notify="(data)=>proxyComponentDialog2.notify?proxyComponentDialog2.notify(data):''"
-          @ok="proxyComponentDialog2.onResult(proxyComponentDialog2.resultData);proxyComponentDialog2.visible=false"
+          @ok="()=>{proxyComponentDialog2.onResult(proxyComponentDialog2.resultData);proxyComponentDialog2.visible=false}"
         />
         <!-- <rel-bind
           v-if="$refs.proxyComponent2"
@@ -308,17 +310,33 @@ export default {
           // if (vm.proxyComponentDialog2.item.onResult) {
           //   vm.proxyComponentDialog2.item.onResult(data)
           // }
-          let data = _data
-          if (!vm.$refs.proxyComponent2.getComponentValue) {
-            debugger
-            throw new Error('请给代理组件实现 getComponentValue 方法')
-          }
-          const val = vm.$refs.proxyComponent2.getComponentValue()
-          if (val) {
-            data = val
-          }
-          if (vm.proxyComponentDialog2.item.onResult) {
-            vm.proxyComponentDialog2.item.onResult(data)
+          if (vm.$refs.proxyComponent2.getComponentSubmitPromise) {
+            vm.$refs.proxyComponent2.getComponentSubmitPromise().then(
+              data => {
+                if (vm.proxyComponentDialog2.item.onResult) {
+                  vm.proxyComponentDialog2.item.onResult(data)
+                }
+                this.proxyComponentDialog2.visible = false
+              },
+              data => {
+                if (vm.proxyComponentDialog2.item.onResult) {
+                  vm.proxyComponentDialog2.item.onResult(data)
+                }
+              }
+            )
+          } else {
+            let data = _data
+            if (!vm.$refs.proxyComponent2.getComponentValue) {
+              debugger
+              throw new Error('请给代理组件实现 getComponentValue 方法')
+            }
+            const val = vm.$refs.proxyComponent2.getComponentValue()
+            if (val) {
+              data = val
+            }
+            if (vm.proxyComponentDialog2.item.onResult) {
+              vm.proxyComponentDialog2.item.onResult(data)
+            }
           }
         }
       }
@@ -417,10 +435,25 @@ export default {
         this.editDialog.isupdate = true
       }
     },
+    resetFilters() {
+      this.$emit('resetResultParams')
+      this.resultTableParams = this.config.resultTableParams || {}
+      this.querySelectFormatterVal = {}
+      this.$nextTick(() => {
+        this.$refs.filter.reset()
+      })
+    },
+    /**
+     * 重新加载条件的选择数据
+     */
+    reloadFilterChoice() {
+      this.$refs.filter.reloadChoiceData()
+    },
     /**
      * 设置选择框的格式化数据，提交时将会提交格式化的内容
      */
     setSelectFormatterVal(item, val, list) {
+      // 废弃
       if (item.acitonValue) {
         if (val) {
           this.querySelectFormatterVal[item.prop] = item.acitonValue(val)
@@ -429,6 +462,14 @@ export default {
         }
       } else {
         this.querySelectFormatterVal[item.prop] = val
+      }
+      // 废品 -end
+      if (item.formatter) {
+        if (val) {
+          this.querySelectFormatterVal[item.prop] = item.formatter(val)
+        } else {
+          this.querySelectFormatterVal[item.prop] = null
+        }
       }
     },
     /**
@@ -545,7 +586,7 @@ export default {
             scroll: this.config.scroll || {},
             selectable: this.config.selectable === undefined || this.config.selectable,
             singleSelect: this.config.singleSelect || false,
-            defaultQuery: this.config.defaultQuery === undefined,
+            defaultQuery: this.config.defaultQuery === undefined ? undefined : this.config.defaultQuery,
             onLoadData2: async (pageNum, pageSize) => {
               this.resultTable.loading = true
               const vm = this
@@ -718,70 +759,67 @@ export default {
       //  const form = Object.assign({}, this.editDialog.data, this.formSelectFormatterVal)
       const vm = this
 
-      this.$refs.editForm
-        .validate()
-        .then(form => {
-          list.forEach(item => {
-            // if (item.choice && item.multi && form[item.prop]) {
-            //   form[item.prop] = form[item.prop].join(',')
-            // }
-            if (item.hidden) {
-              form[item.prop] = item.default
-            }
-          })
-
-          const method = 'post'
-          let _form = form
-          const url = this.editDialog.isupdate ? this.module.updateUrl : this.module.saveUrl
-          if (this.module.beforeSubmit) {
-            const res = this.module.beforeSubmit(form, this.editDialog.isupdate)
-            if (res) {
-              _form = res
-            }
+      return this.$refs.editForm.validate().then(form => {
+        list.forEach(item => {
+          // if (item.choice && item.multi && form[item.prop]) {
+          //   form[item.prop] = form[item.prop].join(',')
+          // }
+          if (item.hidden) {
+            form[item.prop] = item.default
           }
-          this.loading = true
-          axios({
-            url,
-            method,
-            data: _form
-          }).then(
-            data => {
-              console.log(data)
-              this.$emit('save', { form: this.form, result: data })
-              let afterResult = null
-              if (this.module.afterSubmit instanceof Function) {
-                afterResult = this.module.afterSubmit(data, vm.editDialog.data)
-              }
-              if (typeof afterResult === 'boolean' && !afterResult) {
-                console.log('阻断默认处理')
-              } else if (afterResult && afterResult instanceof Promise) {
-                afterResult.then(
-                  () => {
-                    this.editDialog.visible = false
-                    this.resultTable.reload()
-                    this.$message.success('保存成功')
-                    this.loading = false
-                  },
-                  () => {
-                    this.loading = false
-                  }
-                )
-              } else {
-                this.$nextTick(() => {
+        })
+
+        const method = 'post'
+        let _form = form
+        const url = this.editDialog.isupdate ? this.module.updateUrl : this.module.saveUrl
+        if (this.module.beforeSubmit) {
+          const res = this.module.beforeSubmit(form, this.editDialog.isupdate)
+          if (res) {
+            _form = res
+          }
+        }
+        this.loading = true
+        axios({
+          url,
+          method,
+          data: _form
+        }).then(
+          data => {
+            console.log(data)
+            this.$emit('save', { form: this.form, result: data })
+            let afterResult = null
+            if (this.module.afterSubmit instanceof Function) {
+              afterResult = this.module.afterSubmit(data, vm.editDialog.data)
+            }
+            if (typeof afterResult === 'boolean' && !afterResult) {
+              console.log('阻断默认处理')
+            } else if (afterResult && afterResult instanceof Promise) {
+              afterResult.then(
+                () => {
                   this.editDialog.visible = false
                   this.resultTable.reload()
                   this.$message.success('保存成功')
                   this.loading = false
-                })
-              }
-            },
-            e => {
-              this.loading = false
-              this.$message.error(e.message)
+                },
+                () => {
+                  this.loading = false
+                }
+              )
+            } else {
+              this.$nextTick(() => {
+                this.editDialog.visible = false
+                this.resultTable.reload()
+                this.$message.success('保存成功')
+                this.loading = false
+              })
             }
-          )
-        })
-        .catch(e => {})
+          },
+          e => {
+            this.loading = false
+            this.$message.error(e.message)
+          }
+        )
+      })
     },
     search() {
       this.resultTable.reload(1)

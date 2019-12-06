@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js.cookie.min.js"></script>
+  <title>Document</title>
+
+</head>
+
+<body>
+</body>
+<script>
+  function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+    var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+    var r = window.location.search.substr(1).match(reg)
+    var q = window.location.pathname.substr(1).match(reg_rewrite)
+    if (r != null) {
+      return unescape(r[2])
+    } else if (q != null) {
+      return unescape(q[2])
+    } else {
+      return null
+    }
+  }
+
+  var str = getQueryString('mmsWebSessionId')
+  if (str) {
+    Cookies.set('mmsWebSessionId2', str, {
+      expires: 7,
+      path: '/'
+    })
+    window.location.href = 'redirect.html'
+  } else {
+    window.location.href = 'http://localhost:8000'
+  }
+</script>
+
+</html>

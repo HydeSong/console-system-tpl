@@ -10,6 +10,7 @@ export default {
         datetime: '请输入正确的日期（YYYY-MM-DD HH:mm:ss）',
         number: '请输入有效的数字',
         digits: '只能输入整数',
+        nodigits: '不能为纯数字',
         maxlength: '最多可以输入 {0} 个字符',
         minlength: '最少要输入 {0} 个字符',
         rangelength: '请输入长度在 {0} 到 {1} 之间的字符串',
@@ -87,6 +88,11 @@ export default {
             if (value == null || this.trim(value) == '') return true
             return /^-?\d+$/.test(value)
         },
+        // 非数字
+        nodigits: function (value) {
+            if (value == null || this.trim(value) == '') return true
+            return !/^-?\d+$/.test(value)
+        },
         // 字符串至少n个字符
         minlength: function (value, param) {
             if (value == null || this.trim(value) == '') return true
@@ -100,12 +106,12 @@ export default {
         // 字符串长度的范围
         rangelength: function (value, param) {
             if (value == null || this.trim(value) == '') return true
-            return value.length >= param[0] && value.length <= param[1]
+            return value.length >= parseInt(param[0]) && parseInt(value.length <= param[1])
         },
         rangeCharLength: function (value, param) {
 
             const length = value.replace(/[\u0391-\uFFE5]/g, "aa").length;
-            return length >= param[0] && value.length <= length;
+            return length >= parseInt(param[0]) && length <= parseInt(param[1]);
         },
         // 数字大于n
         min: function (value, param) {
@@ -204,7 +210,7 @@ export default {
         }, // 英文字母（小写）
         English_1: function (value) {
             if (value == null) return true
-            var rex = /^[A-Z]{1,100}]?$/
+            var rex = /^[\s+A-Z]{1,100}]?$/
             return rex.test(value)
         },
         // 非空格
@@ -217,25 +223,27 @@ export default {
             return value.replace(/(^\s*)|(\s*$)/g, '')
         },
         ip(value) {
-          const ipReg = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/
-          const nums = value.match(/\d+/g)
-          if (!nums || !nums.length) return false
-          return (
-            (nums.filter(num => num > 255 || num < 0).length === 0)
-            && ipReg.test(value)
-          )
+            const ipReg = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/
+            const nums = value.match(/\d+/g)
+            if (!nums || !nums.length) return false
+            return (
+                (nums.filter(num => num > 255 || num < 0).length === 0)
+                && ipReg.test(value)
+            )
         },
         landline(value) {
-          return /^(0\d{2}-\d{8}(-\d{1,4})?)|(0\d{3}-\d{7,8}(-\d{1,4})?)$/g.test(value)
+            return /^(0\d{2}-\d{8}(-\d{1,4})?)|(0\d{3}-\d{7,8}(-\d{1,4})?)$/g.test(value)
         },
         qq(v) {
-          return /^\d{5,11}$/g.test(v)
+            return /^\d{5,11}$/g.test(v)
         },
         mac(v) {
-          return /^([0-9a-fA-F]{2})(([-:/.][0-9a-fA-F]{2}){5})$/.test(v)
+            return /^([0-9a-fA-F]{2})(([-:/.][0-9a-fA-F]{2}){5})$/.test(v)
         },
         ipv6(v) {
-          return /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(v)
+            return /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(v)
         }
+
+
     }
 }

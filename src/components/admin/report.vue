@@ -6,7 +6,7 @@
         <template v-for="(col,index2) in columns">
           <td class="report-title" :key="'lb'+index+'form-'+index2">{{col.label}}</td>
           <td style="min-width:100px" :key="'val'+index+'form-'+index2">
-            {{displayValue(col.prop,col.showProp)||'--'}}
+            {{displayValue(col.prop,col.showProp,col.show)||'--'}}
             <!-- {{col}} -->
           </td>
           <td v-if="col.needFillEnd" :colspan="(2-index2)*2" :key="index2+'end'"></td>
@@ -82,7 +82,10 @@ export default {
     })
   },
   methods: {
-    displayValue(prop, showProp) {
+    displayValue(prop, showProp, showFunc) {
+      if (showFunc) {
+        return showFunc(this.form)
+      }
       if (this.choiceMap[prop]) {
         for (const option of this.choiceMap[prop]) {
           if (option.value + '' === this.form[prop] + '') {

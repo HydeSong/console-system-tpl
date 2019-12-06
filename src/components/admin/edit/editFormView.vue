@@ -2,13 +2,13 @@
  * @Author: zhangwencan
  * @Date: 2019-10-11 19:56:27
  * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-01 18:00:45
+ * @Last Modified time: 2019-11-19 10:18:33
  * 动态表单组件
  * 根据配置渲染相应的组件，并集成验证方法
  */
 
 <template>
-  <span v-if="form&&show">
+  <span v-if="form&&show" class="edit-form-view">
     <component
       :is="item.customView"
       v-if="item.customView&&item.prop==='0000'"
@@ -106,6 +106,7 @@
       :style="{width:itemWidth}"
       :is-edit-item="true"
       :item="item"
+      allowClear
       @change="(val)=>{validateItem(form[item.prop],item);}"
     >
       <a-select-option
@@ -125,13 +126,14 @@
       :item="item"
       :mode="item.multi?'multiple':undefined"
       showSearch
+      allowClear
       @change="(val)=>{validateItem(form[item.prop],item);}"
       :filterOption="selectFilterOption"
     >
       <a-select-option v-for="c in item.choice" :key="c.value">{{ c.label }}</a-select-option>
     </a-select>
     <a-input-number
-      v-else-if="item.type==='num'"
+      v-else-if="item.type==='num'&&!readonly"
       :ref="item._key"
       :readonly="readonly"
       v-model="form[item.prop]"
@@ -139,6 +141,18 @@
       :item="item"
       :style="{width:itemWidth}"
       @change="(val)=>{validateItem(form[item.prop],item);}"
+    />
+    <a-input-number
+      v-else-if="item.type==='money'&&!readonly"
+      :ref="item._key"
+      :readonly="readonly"
+      v-model="form[item.prop]"
+      :is-edit-item="true"
+      :item="item"
+      :style="{width:itemWidth}"
+      @change="(val)=>{validateItem(form[item.prop],item);}"
+      :min="0"
+      :precision="2"
     />
     <my-input-search
       v-else-if="item.component!==undefined"
@@ -183,15 +197,23 @@
       :ref="item._key"
       :item="item"
     ></a-textarea>
-    <edit-item v-else-if="item.type==='group'" :item="item" v-model="form">
+    <edit-item v-else-if="item.type==='group'||item.type==='divide'" :item="item" v-model="form">
       <template scope="scope">
         <!-- show:{{scope.show}} -->
         <!-- {{scope.fields}} -->
         <span
           v-if="scope.show"
-          :style="{display:item.noPanel?'':'block',border:item.noPanel?'':'1px solid #e9e9e9',padding:item.noPanel?'':'10px',marginBottom:item.noPanel?'':'10px'}"
+          :style="{width:item.noPanel?'auto':'100%',display:item.noPanel?'':'table',border:item.noPanel?'':'1px solid #e9e9e9',padding:item.noPanel||item.type==='divide'?'':'0px 10px 10px',marginBottom:item.noPanel?'':'10px'}"
         >
-          <a-divider v-if="!item.noPanel" orientation="left">{{scope.title}}</a-divider>
+          <!-- <a-divider v-if="!item.noPanel" orientation="left">{{scope.title}}</a-divider> -->
+          <div
+            v-if="!item.noPanel"
+            class="rp-title rp-title-before"
+            style="height: 16px;line-height: 16px;color:#333333;display: table;white-space: nowrap;margin:10px 10px 10px 0px"
+          >
+            <span style="display:inline-block">{{scope.title}}</span>
+            <!-- <span style="wdith:100%"></span> -->
+          </div>
           <edit2
             :key="scope.index"
             :fields="scope.fields"
@@ -447,4 +469,18 @@ export default {
 </script>
 
 <style>
+.edit-form-view .rp-title::before {
+  content: '';
+  display: table-cell;
+  position: relative;
+  top: 50%;
+  width: 3px;
+}
+.edit-form-view .rp-title::after {
+  content: '';
+  display: table-cell;
+  position: relative;
+  top: 50%;
+  width: 99%;
+}
 </style>

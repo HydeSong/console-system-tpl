@@ -2,14 +2,18 @@
  * @Author: zhangwencan
  * @Date: 2019-09-20 09:40:24
  * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-10-24 14:17:36
+ * @Last Modified time: 2019-11-20 20:05:53
   上传
  */
 
 <template>
   <div class="upload-win">
     <div style="padding:20px 10px;">
-      <input type="file" @change="readExcel" />
+      <input
+        type="file"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        @change="readExcel"
+      />
       <a @click="download">模板下载</a>
       <br />
       <div v-if="errorMessage.length>0" style="margin:20px 0px;padding:10px;border:1px red solid;">

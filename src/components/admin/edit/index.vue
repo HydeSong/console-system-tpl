@@ -22,7 +22,7 @@
       </a-alert>
     </div>
     <a-form refs="form" layout="inline" size="mini">
-      <span v-for="(item, index) in displayEditFields" :key="'e'+index">
+      <template v-for="(item, index) in displayEditFields">
         {{initItemData(item)}}
         {{bindRequiredValue(item,form)}}
         <a-form-item
@@ -107,6 +107,7 @@
             :is-edit-item="true"
             :ref="item._key"
             :item="item"
+            allowClear
           >
             <a-select-option
               v-for="(c, index3) in choiceMap[item.prop]"
@@ -123,6 +124,7 @@
             :is-edit-item="true"
             :ref="item._key"
             :item="item"
+            allowClear
           >
             <a-select-option v-for="(c) in item.choice" :key="c.value">{{ c.label }}</a-select-option>
           </a-select>
@@ -133,6 +135,16 @@
             :is-edit-item="true"
             :ref="item._key"
             :item="item"
+          />
+          <a-input-number
+            v-else-if="item.type==='money'"
+            v-model="form[item.prop]"
+            :style="{width:dialogFormItemWidth}"
+            :is-edit-item="true"
+            :ref="item._key"
+            :item="item"
+            :min="0"
+            :precision="2"
           />
           <myDatePicker
             v-else-if="item.type==='date'"
@@ -188,13 +200,24 @@
             :ref="item._key"
             :item="item"
           ></a-textarea>
-          <edit-item v-else-if="item.type==='group'" :item="item" v-model="form">
+          <edit-item
+            v-else-if="item.type==='group'||item.type==='divide'"
+            :item="item"
+            v-model="form"
+          >
             <template scope="scope">
               <span
                 v-if="scope.show"
-                :style="{display:item.noPanel?'':'block',border:item.noPanel?'':'1px solid #e9e9e9',padding:item.noPanel?'':'10px',marginBottom:item.noPanel?'':'10px'}"
+                :style="{width:item.noPanel?'auto':'100vh',display:item.noPanel?'':'table',border:item.noPanel||item.type==='divide'?'':'1px solid #e9e9e9',padding:item.noPanel?'':'0px 10px 10px',marginBottom:item.noPanel?'':'10px'}"
               >
-                <a-divider v-if="!item.noPanel" orientation="left">{{scope.title}}</a-divider>
+                <!-- <a-divider v-if="!item.noPanel" orientation="left">{{scope.title}}</a-divider> -->
+                <div
+                  class="rp-title rp-title-before"
+                  style="height: 16px;line-height: 16px;color:#333333;display: table;white-space: nowrap;margin:10px 10px 10px 0px"
+                >
+                  <span style="display:inline-block">{{scope.title}}</span>
+                  <!-- <span style="wdith:100%"></span> -->
+                </div>
                 <edit2
                   :key="scope.index"
                   :fields="scope.fields"
@@ -227,8 +250,13 @@
             <a-icon type="info-circle" style="margin-left:5px;color:red" />
           </a-tooltip>
         </a-form-item>
-        <edit-child v-if="item.children||item.childrenProp" :item="item" :form="form" />
-      </span>
+        <edit-child
+          v-if="item.children||item.childrenProp"
+          :item="item"
+          :form="form"
+          :key="'child'+index"
+        />
+      </template>
     </a-form>
     <!-- 表单按键组件代理 -->
     <a-modal
@@ -240,12 +268,14 @@
       @ok="proxyComponentDialog3.onResult(proxyComponentDialog3.resultData);proxyComponentDialog3.visible=false"
     >
       <div v-if="proxyComponentDialog3.visible">
-        <component
-          ref="proxyComponent"
-          :is="proxyComponentDialog3.component"
-          :meta="proxyComponentDialog3.item"
-          @onResult="(data)=>proxyComponentDialog3.resultData=data"
-        />
+        <delay-show>
+          <component
+            ref="proxyComponent"
+            :is="proxyComponentDialog3.component"
+            :meta="proxyComponentDialog3.item"
+            @onResult="(data)=>proxyComponentDialog3.resultData=data"
+          />
+        </delay-show>
       </div>
     </a-modal>
   </div>
@@ -257,10 +287,11 @@ import myDatePicker from './myDatePicker'
 import myInputSearch from './myInputSearch'
 import editItem from './editItem'
 import renderView from './rander'
+import delayShow from './DelayShow'
 import validators from '../editValidators'
 import { copyProps } from '../utils'
 export default {
-  components: { myCheckboxGroup, myDatePicker, editItem, renderView, myInputSearch },
+  components: { myCheckboxGroup, myDatePicker, editItem, renderView, myInputSearch, delayShow },
   name: 'edit',
   componentName: 'edit',
   props: {
@@ -284,7 +315,7 @@ export default {
     form: {
       type: Object,
       default() {
-        return {}
+        return null
       }
     },
     formItemWidth: {
@@ -341,6 +372,9 @@ export default {
     }
   },
   created() {
+    if (!this.form) {
+      this.$emit('update:form', {})
+    }
     if (this.editFields instanceof Function) {
       this.mEditFields = this.editFields()
     } else {
@@ -724,6 +758,20 @@ export default {
 <style  >
 .lk-edit * {
   font-size: 12px;
+}
+.lk-edit .rp-title::before {
+  content: '';
+  display: table-cell;
+  position: relative;
+  top: 50%;
+  width: 1%;
+}
+.lk-edit .rp-title::after {
+  content: '';
+  display: table-cell;
+  position: relative;
+  top: 50%;
+  width: 99%;
 }
 .lk-edit .ant-form-item-label label {
   width: 148px;

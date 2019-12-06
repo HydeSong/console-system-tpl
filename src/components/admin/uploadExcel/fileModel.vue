@@ -6,13 +6,16 @@
           <a-upload
             name="file"
             :multiple="false"
+            :showUploadList="false"
             action="/mmsweb/attach/attachUpload"
             @change="handleChange"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           >
             <a-button>
               <a-icon type="upload" />选择上传文件
             </a-button>
           </a-upload>
+          {{fileName}}
         </a-form-item>
         <a-form-item>
           <a @click="download">模板下载</a>
@@ -35,6 +38,7 @@ export default {
     return {
       result: null,
       path: '',
+      fileName: '',
       data: [],
       errorMessage: []
     }
@@ -42,6 +46,7 @@ export default {
   methods: {
     handleChange(info) {
       this.path = null
+      this.fileName = info.file.name
       if (info.file.status === 'done') {
         console.log(info.file.response.data.path)
         this.path = info.file.response.data.path
@@ -72,20 +77,21 @@ export default {
       return Promise.reject(new Error('上传出错'))
     },
     submit() {
-      if (this.meta.doUpload) {
-        const promise = this.meta.doUpload(this.path)
-        if (promise instanceof Promise) {
-          promise
-            .then(data => {
-              this.$emit('ok')
-            })
-            .catch(data => {})
-        } else {
-          this.$message.error('上传回调应返回Promise')
-        }
-      } else {
-        this.$message.error('请指定【doUpload】进行上传动作实现')
-      }
+      this.$emit('ok')
+      //   if (this.meta.doUpload) {
+      //     const promise = this.meta.doUpload(this.path)
+      //     if (promise instanceof Promise) {
+      //       promise
+      //         .then(data => {
+      //           this.$emit('ok')
+      //         })
+      //         .catch(data => {})
+      //     } else {
+      //       this.$message.error('上传回调应返回Promise')
+      //     }
+      //   } else {
+      //     this.$message.error('请指定【doUpload】进行上传动作实现')
+      //   }
     }
   }
 }

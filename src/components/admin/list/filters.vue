@@ -2,7 +2,7 @@
  * @Author: zhangwencan
  * @Date: 2019-09-25 21:08:53
  * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-10-22 19:34:15
+ * @Last Modified time: 2019-11-25 13:45:13
  */
 <template>
   <span>
@@ -54,10 +54,8 @@
         v-model="resultTableParams[item.startProp]"
         style="width:465px;"
         :format="item.format||'YYYY-MM-DD'"
-        @change="(s,array)=>
-            {
-              querySelectFormatterVal[item.startProp]=array[0];querySelectFormatterVal[item.endProp]=array[1];
-            }"
+        :defaultValue="item.default"
+        @change="(s,array)=> rangeDateChange(array,item)"
       />
       <a-input-number
         v-else-if="item.type==='num'"
@@ -95,14 +93,16 @@
       class="admin-list-component"
       centered
     >
-      <div v-if="proxyComponentDialog.visible">
+      <delayShow v-if="proxyComponentDialog.visible">
         <component
           ref="proxyComponent"
           :is="proxyComponentDialog.component"
+          :meta="proxyComponentDialog.item"
           @onResult="proxyComponentDialog.onResult"
         />
-      </div>
+      </delayShow>
       <span slot="footer" style="text-align:center" class="dialog-footer">
+        <a-button @click="proxyComponentDialog.visible = false">取消</a-button>
         <a-button type="primary" @click="okClick()">确定</a-button>
       </span>
     </a-modal>
@@ -110,7 +110,9 @@
 </template>
 
 <script>
+import delayShow from '../edit/DelayShow'
 export default {
+  components: { delayShow },
   props: ['resultTableParams', 'filterFields', 'setSelectFormatterVal', 'compact', 'querySelectFormatterVal'],
   computed: {
     itemWidth() {
@@ -153,19 +155,44 @@ export default {
     }
   },
   created() {
-    this.filterFields.forEach(item => {
-      if (item.choice) {
-        if (item.choice instanceof Function) {
-          item.choice().then(data => {
-            this.$set(this.choiceMap, item.prop, data)
-          })
-        } else {
-          this.choiceMap[item.prop] = item.choice
-        }
-      }
-    })
+    // this.filterFields.forEach(item => {
+    //   if (item.choice) {
+    //     if (item.choice instanceof Function) {
+    //       item.choice().then(data => {
+    //         this.$set(this.choiceMap, item.prop, data)
+    //       })
+    //     } else {
+    //       this.choiceMap[item.prop] = item.choice
+    //     }
+    //   }
+    // })
+    this.loadChoiceData()
+    this.reset()
   },
   methods: {
+    /**
+     * 加载选择数据
+     */
+    loadChoiceData() {
+      this.filterFields.forEach(item => {
+        if (item.choice) {
+          if (item.choice instanceof Function) {
+            item.choice().then(data => {
+              this.$set(this.choiceMap, item.prop, data)
+            })
+          } else {
+            this.choiceMap[item.prop] = item.choice
+          }
+        }
+      })
+    },
+    /**
+     * 重新加载
+     */
+    reloadChoiceData() {
+      // this.choiceMap = {}
+      this.loadChoiceData()
+    },
     /**
      * 过滤代理组件
      */
@@ -177,6 +204,22 @@ export default {
       this.proxyComponentDialog.item = item
       this.proxyComponentDialog.title = item.label
       this.proxyComponentDialog.width = item.componentWidth
+    },
+    reset() {
+      this.filterFields.forEach(item => {
+        if (item.default) {
+          if (item.type === 'range-date') {
+            const start = item.default[0].format(item.format || 'YYYY-MM-DD')
+            const end = item.default[1].format(item.format || 'YYYY-MM-DD')
+            this.rangeDateChange([start, end], item)
+            this.$set(this.resultTableParams, item.startProp, item.default)
+          } else {
+            this.$set(this.resultTableParams, item.prop, item.default)
+          }
+        } else if (item.prop) {
+          this.$set(this.resultTableParams, item.prop, null)
+        }
+      })
     },
     okClick() {
       const component = this.$refs.proxyComponent
@@ -194,6 +237,13 @@ export default {
         this.proxyComponentDialog.onResult(this.proxyComponentDialog.resultData)
         this.proxyComponentDialog.visible = false
       }
+    },
+    /**
+     * 时间范围改变
+     */
+    rangeDateChange(array, item) {
+      this.$set(this.querySelectFormatterVal, item.startProp, array[0])
+      this.$set(this.querySelectFormatterVal, item.endProp, array[1])
     }
   }
 }

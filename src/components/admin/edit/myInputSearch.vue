@@ -1,6 +1,12 @@
 <template>
   <span>
-    <a-input :value="display" disabled :style="{width:'calc('+width+' - 42px)'}" @change="change"></a-input>
+    <a-input
+      :title="display"
+      :value="display"
+      disabled
+      :style="{width:'calc('+width+' - 42px)'}"
+      @change="change"
+    ></a-input>
     <a-button
       :disabled="readonly"
       class="my-input-sarch-button"
