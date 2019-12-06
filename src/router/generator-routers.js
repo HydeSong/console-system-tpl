@@ -10,49 +10,49 @@ const constantRouterComponents = {
   BlankLayout: BlankLayout,
   RouteView: RouteView,
   PageView: PageView,
-  '403': () => import(/* webpackChunkName: "error" */ '@/views/exception/403'),
-  '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404'),
-  '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500'),
+  '403': () => import(/* webpackChunkName: "error" */ '@/pages/exception/403'),
+  '404': () => import(/* webpackChunkName: "error" */ '@/pages/exception/404'),
+  '500': () => import(/* webpackChunkName: "error" */ '@/pages/exception/500'),
 
   // 你需要动态引入的页面组件
-  'Workplace': () => import('@/views/dashboard/Workplace'),
-  'Analysis': () => import('@/views/dashboard/Analysis'),
+  'Workplace': () => import('@/pages/dashboard/Workplace'),
+  'Analysis': () => import('@/pages/dashboard/Analysis'),
 
   // form
-  'BasicForm': () => import('@/views/form/BasicForm'),
-  'StepForm': () => import('@/views/form/stepForm/StepForm'),
-  'AdvanceForm': () => import('@/views/form/advancedForm/AdvancedForm'),
+  'BasicForm': () => import('@/pages/form/BasicForm'),
+  'StepForm': () => import('@/pages/form/stepForm/StepForm'),
+  'AdvanceForm': () => import('@/pages/form/advancedForm/AdvancedForm'),
 
   // list
-  'TableList': () => import('@/views/list/TableList'),
-  'StandardList': () => import('@/views/list/StandardList'),
-  'CardList': () => import('@/views/list/CardList'),
-  'SearchLayout': () => import('@/views/list/search/SearchLayout'),
-  'SearchArticles': () => import('@/views/list/search/Article'),
-  'SearchProjects': () => import('@/views/list/search/Projects'),
-  'SearchApplications': () => import('@/views/list/search/Applications'),
-  'ProfileBasic': () => import('@/views/profile/basic/Index'),
-  'ProfileAdvanced': () => import('@/views/profile/advanced/Advanced'),
+  'TableList': () => import('@/pages/list/TableList'),
+  'StandardList': () => import('@/pages/list/StandardList'),
+  'CardList': () => import('@/pages/list/CardList'),
+  'SearchLayout': () => import('@/pages/list/search/SearchLayout'),
+  'SearchArticles': () => import('@/pages/list/search/Article'),
+  'SearchProjects': () => import('@/pages/list/search/Projects'),
+  'SearchApplications': () => import('@/pages/list/search/Applications'),
+  'ProfileBasic': () => import('@/pages/profile/basic/Index'),
+  'ProfileAdvanced': () => import('@/pages/profile/advanced/Advanced'),
 
   // result
-  'ResultSuccess': () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
-  'ResultFail': () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
+  'ResultSuccess': () => import(/* webpackChunkName: "result" */ '@/pages/result/Success'),
+  'ResultFail': () => import(/* webpackChunkName: "result" */ '@/pages/result/Error'),
 
   // exception
-  'Exception403': () => import(/* webpackChunkName: "fail" */ '@/views/exception/403'),
-  'Exception404': () => import(/* webpackChunkName: "fail" */ '@/views/exception/404'),
-  'Exception500': () => import(/* webpackChunkName: "fail" */ '@/views/exception/500'),
+  'Exception403': () => import(/* webpackChunkName: "fail" */ '@/pages/exception/403'),
+  'Exception404': () => import(/* webpackChunkName: "fail" */ '@/pages/exception/404'),
+  'Exception500': () => import(/* webpackChunkName: "fail" */ '@/pages/exception/500'),
 
   // account
-  'AccountCenter': () => import('@/views/account/center/Index'),
-  'AccountSettings': () => import('@/views/account/settings/Index'),
-  'BaseSettings': () => import('@/views/account/settings/BaseSetting'),
-  'SecuritySettings': () => import('@/views/account/settings/Security'),
-  'CustomSettings': () => import('@/views/account/settings/Custom'),
-  'BindingSettings': () => import('@/views/account/settings/Binding'),
-  'NotificationSettings': () => import('@/views/account/settings/Notification'),
+  'AccountCenter': () => import('@/pages/account/center/Index'),
+  'AccountSettings': () => import('@/pages/account/settings/Index'),
+  'BaseSettings': () => import('@/pages/account/settings/BaseSetting'),
+  'SecuritySettings': () => import('@/pages/account/settings/Security'),
+  'CustomSettings': () => import('@/pages/account/settings/Custom'),
+  'BindingSettings': () => import('@/pages/account/settings/Binding'),
+  'NotificationSettings': () => import('@/pages/account/settings/Notification'),
 
-  'TestWork': () => import(/* webpackChunkName: "TestWork" */ '@/views/dashboard/TestWork')
+  'TestWork': () => import(/* webpackChunkName: "TestWork" */ '@/pages/dashboard/TestWork')
 }
 
 // 前端未找到页面路由（固定不用改）
@@ -118,7 +118,7 @@ export const generator = (routerMap, parent) => {
       // 该路由对应页面的 组件 :方案1
       component: constantRouterComponents[item.component || item.key],
       // 该路由对应页面的 组件 :方案2 (动态加载)
-      // component: constantRouterComponents[item.component || item.key] || () => import(`@/views/${item.component}`),
+      // component: constantRouterComponents[item.component || item.key] || () => import(`@/pages/${item.component}`),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: { title: title, icon: icon || undefined, hiddenHeaderContent: hiddenHeaderContent, target: target, permission: item.name }

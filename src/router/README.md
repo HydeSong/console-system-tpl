@@ -71,20 +71,20 @@ const asyncRouterMap = [
           {
             path: '/dashboard/analysis',
             name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
+            component: () => import('@/pages/dashboard/Analysis'),
             meta: {title: '分析页', permission: ['dashboard']}
           },
           {
             path: '/dashboard/monitor',
             name: 'Monitor',
             hidden: true,
-            component: () => import('@/views/dashboard/Monitor'),
+            component: () => import('@/pages/dashboard/Monitor'),
             meta: {title: '监控页', permission: ['dashboard']}
           },
           {
             path: '/dashboard/workplace',
             name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
+            component: () => import('@/pages/dashboard/Workplace'),
             meta: {title: '工作台', permission: ['dashboard']}
           }
         ]
@@ -101,14 +101,14 @@ const asyncRouterMap = [
           {
             path: '/result/success',
             name: 'ResultSuccess',
-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
+            component: () => import(/* webpackChunkName: "result" */ '@/pages/result/Success'),
             // 该页面隐藏面包屑和页面标题栏
             meta: { title: '成功', hiddenHeaderContent: true, permission: [ 'result' ] }
           },
           {
             path: '/result/fail',
             name: 'ResultFail',
-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
+            component: () => import(/* webpackChunkName: "result" */ '@/pages/result/Error'),
             // 该页面隐藏面包屑和页面标题栏
             meta: { title: '失败', hiddenHeaderContent: true, permission: [ 'result' ] }
           }
