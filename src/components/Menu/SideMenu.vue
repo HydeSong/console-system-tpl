@@ -1,27 +1,29 @@
 <template>
   <a-layout-sider
-    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null ]"
-    width="256px"
-    :collapsible="collapsible"
     v-model="collapsed"
-    :trigger="null">
+    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null ]"
+    width="200px"
+    :collapsible="collapsible"
+    :trigger="null"
+  >
+    <!-- {{$store.getters.keepAlivePage}} -->
     <logo />
+    <!-- {{menusx}} -->
     <s-menu
       :collapsed="collapsed"
       :menu="menus"
       :theme="theme"
       :mode="mode"
+      style="padding: 16px 0px;"
       @select="onSelect"
-      style="padding: 16px 0px;"></s-menu>
+    />
   </a-layout-sider>
-
 </template>
 
 <script>
 import Logo from '@/components/tools/Logo'
 import SMenu from './index'
 import { mixin, mixinDevice } from '@/utils/mixin'
-
 export default {
   name: 'SideMenu',
   components: { Logo, SMenu },
@@ -53,7 +55,9 @@ export default {
     }
   },
   methods: {
-    onSelect (obj) {
+    onSelect(obj) {
+      // debugger
+      // this.$store.dispatch('addAlivePage', obj.key)
       this.$emit('menuSelect', obj)
     }
   }

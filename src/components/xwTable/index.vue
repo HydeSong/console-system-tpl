@@ -1,11 +1,3 @@
-<!--
- * @Author: zhangwc
- * @Date: 2019-08-19 14:48:22
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-23 10:30:34
- * @Description: 分页表格组件
- -->
-
 <template>
   <div class="xw-table" style="background:#FFF;">
     <a-table

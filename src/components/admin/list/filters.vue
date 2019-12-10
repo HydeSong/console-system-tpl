@@ -1,9 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-25 21:08:53
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-25 13:45:13
- */
 <template>
   <span>
     <!-- {{resultTableParams}} -->

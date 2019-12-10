@@ -9,8 +9,26 @@ export const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     meta: { title: '首页' },
-    redirect: '/dashboard/workplace',
+    redirect: '/home/welcome',
     children: [
+      // home主页
+      {
+        path: '/home',
+        name: 'home',
+        hidden: true,
+        redirect: '/home/welcome',
+        component: RouteView,
+        meta: { title: '' },
+        children: [
+          {
+            path: '/home/welcome',
+            name: 'home-welcome',
+            component: () => import(/* webpackChunkName: "home" */ '@/pages/Home.vue'),
+            meta: { title: '首页', keepAlive: false, hiddenHeaderContent: true }
+          }
+        ]
+      },
+
       // dashboard
       {
         path: '/dashboard',

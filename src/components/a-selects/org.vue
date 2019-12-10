@@ -1,11 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-25 09:07:42
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-27 18:05:37
-  机构选择
- */
-
 <template>
   <div style="background:#f0f2f5">
     <list

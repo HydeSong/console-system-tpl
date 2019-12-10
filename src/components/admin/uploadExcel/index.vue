@@ -1,11 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-20 09:40:24
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-20 20:05:53
-  上传
- */
-
 <template>
   <div class="upload-win">
     <div style="padding:20px 10px;">

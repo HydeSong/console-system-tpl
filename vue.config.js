@@ -77,6 +77,13 @@ const vueConfig = {
           // 'primary-color': '#F5222D',
           // 'link-color': '#F5222D',
           // 'border-radius-base': '4px'
+          'border-radius-base': '2px',
+          'font-size-base': '12px',
+          'layout-header-height': '50px',
+          'tabs-card-height': '32px',
+          'btn-height-base': '30px',
+          'input-height-base': '30px',
+          'table-row-hover-bg': '#f5f7fa'
         },
         // DO NOT REMOVE THIS LINE
         javascriptEnabled: true

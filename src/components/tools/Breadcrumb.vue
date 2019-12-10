@@ -4,8 +4,8 @@
       <router-link
         v-if="item.name != name && index != 1"
         :to="{ path: item.path === '' ? '/' : item.path }"
-      >{{ item.meta.title }}</router-link>
-      <span v-else>{{ item.meta.title }}</span>
+      >{{ fomatTitle(item.path)||item.meta.title }}</router-link>
+      <span v-else>{{ fomatTitle(item.path)||item.meta.title }}</span>
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
@@ -22,6 +22,9 @@ export default {
     this.getBreadcrumb()
   },
   methods: {
+    fomatTitle (path) {
+      return this.$store.getters.routerMap[path] ? this.$store.getters.routerMap[path].meta.title : null
+    },
     getBreadcrumb () {
       this.breadList = []
       // this.breadList.push({name: 'index', path: '/dashboard/', meta: {title: '首页'}})
@@ -29,7 +32,9 @@ export default {
       this.name = this.$route.name
       this.$route.matched.forEach(item => {
         // item.name !== 'index' && this.breadList.push(item)
-        this.breadList.push(item)
+        if (item.meta.title) {
+          this.breadList.push(item)
+        }
       })
     }
   },

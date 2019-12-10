@@ -148,7 +148,7 @@ export default {
     DetailListItem
   },
   mixins: [mixinDevice],
-  data () {
+  data() {
     return {
       tabList: [
         {
@@ -283,14 +283,14 @@ export default {
     }
   },
   filters: {
-    statusFilter (status) {
+    statusFilter(status) {
       const statusMap = {
         'agree': '成功',
         'reject': '驳回'
       }
       return statusMap[status]
     },
-    statusTypeFilter (type) {
+    statusTypeFilter(type) {
       const statusTypeMap = {
         'agree': 'success',
         'reject': 'error'
@@ -332,9 +332,6 @@ export default {
   .mobile {
     .detail-layout {
       margin-left: unset;
-    }
-    .text {
-
     }
     .status-list {
       text-align: left;

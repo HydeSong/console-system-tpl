@@ -1,21 +1,14 @@
-<!--
- * @Author:
- * @Date: 2019-08-23 19:11:21
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-24 19:25:32
- * @Description:
- -->
 <template>
   <div class="lk-edit">
     <div v-if="showErrorMessage&&errorMessage&&errorMessage.length>0" style="padding:0px 20px 10px">
       <a-alert type="error" banner closable>
         <div slot="message" style="font-size:12px;">
           <div v-if="errorMessage.length>5">
-            <span style="font-weight:500">{{errorMessage.slice(0,5).join('、')}}</span>
-            <span>&nbsp;等{{errorMessage.length}}项表单数据填写有误</span>
+            <span style="font-weight:500">{{ errorMessage.slice(0,5).join('、') }}</span>
+            <span>&nbsp;等 {{ errorMessage.length }} 项表单数据填写有误</span>
           </div>
           <div v-else>
-            <span style="font-weight:500">{{errorMessage.join('、')}}</span>
+            <span style="font-weight:500">{{ errorMessage.join('、') }}</span>
             <span>&nbsp;填写有误</span>
           </div>
         </div>
@@ -23,8 +16,8 @@
     </div>
     <a-form refs="form" layout="inline" size="mini">
       <template v-for="(item, index) in displayEditFields">
-        {{initItemData(item)}}
-        {{bindRequiredValue(item,form)}}
+        {{ initItemData(item) }}
+        {{ bindRequiredValue(item,form) }}
         <a-form-item
           size="small"
           class="form-item"
@@ -93,10 +86,10 @@
           >
             <!-- {{form[item.prop]}} -->
             <a-checkbox
-              v-for="(item, index) in item.choice"
-              :value="item.value"
-              :key="'ck'+index"
-            >{{item.label}}</a-checkbox>
+              v-for="(itm, idx) in item.choice"
+              :value="itm.value"
+              :key="'ck'+idx"
+            >{{ itm.label }}</a-checkbox>
           </my-checkbox-group>
           <a-select
             v-else-if="item.choice&&(typeof(item.choice)==='function')"
@@ -215,7 +208,7 @@
                   class="rp-title rp-title-before"
                   style="height: 16px;line-height: 16px;color:#333333;display: table;white-space: nowrap;margin:10px 10px 10px 0px"
                 >
-                  <span style="display:inline-block">{{scope.title}}</span>
+                  <span style="display:inline-block">{{ scope.title }}</span>
                   <!-- <span style="wdith:100%"></span> -->
                 </div>
                 <edit2
@@ -245,7 +238,7 @@
             v-if="item.validateStatus==='error'"
           >
             <template slot="title">
-              <span>{{item.errorMessage}}</span>
+              <span>{{ item.errorMessage }}</span>
             </template>
             <a-icon type="info-circle" style="margin-left:5px;color:red" />
           </a-tooltip>
@@ -292,8 +285,8 @@ import validators from '../editValidators'
 import { copyProps } from '../utils'
 export default {
   components: { myCheckboxGroup, myDatePicker, editItem, renderView, myInputSearch, delayShow },
-  name: 'edit',
-  componentName: 'edit',
+  name: 'Edit',
+  componentName: 'Edit',
   props: {
     editFields: {
       type: Array | Function,

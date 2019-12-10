@@ -1,11 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-10-11 11:19:30
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-10-11 15:50:35
- * 时间区间表单组件
- */
-
 <template>
   <span>
     <a-time-picker

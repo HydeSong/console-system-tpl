@@ -4,7 +4,7 @@
     <a-drawer
       v-if="isMobile()"
       placement="left"
-      :wrapClassName="`drawer-sider ${navTheme}`"
+      :wrap-class-name="`drawer-sider ${navTheme}`"
       :closable="false"
       :visible="collapsed"
       @close="drawerClose"
@@ -16,7 +16,7 @@
         :collapsed="false"
         :collapsible="true"
         @menuSelect="menuSelect"
-      ></side-menu>
+      />
     </a-drawer>
 
     <side-menu
@@ -26,9 +26,12 @@
       :theme="navTheme"
       :collapsed="collapsed"
       :collapsible="true"
-    ></side-menu>
+    />
 
-    <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
+    <a-layout
+      :class="[layoutMode, `content-width-${contentWidth}`]"
+      :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
+    >
       <!-- layout header -->
       <global-header
         :mode="layoutMode"
@@ -40,8 +43,10 @@
       />
 
       <!-- layout content -->
-      <a-layout-content :style="{ height: '100%', margin: '24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }">
-        <multi-tab v-if="multiTab"></multi-tab>
+      <a-layout-content
+        :style="{ height: '100%', margin: '24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }"
+      >
+        <multi-tab v-if="multiTab" />
         <transition name="page-transition">
           <route-view />
         </transition>
@@ -53,10 +58,9 @@
       </a-layout-footer>
 
       <!-- Setting Drawer (show in development mode) -->
-      <setting-drawer v-if="!production"></setting-drawer>
+      <setting-drawer v-if="!production" />
     </a-layout>
   </a-layout>
-
 </template>
 
 <script>
@@ -66,21 +70,24 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
+import MultiTab from '@/components/MultiTab'
 import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
 
+const WIDTH = '180px'
 export default {
   name: 'BasicLayout',
-  mixins: [mixin, mixinDevice],
   components: {
     RouteView,
+    MultiTab,
     SideMenu,
     GlobalHeader,
     GlobalFooter,
     SettingDrawer
   },
+  mixins: [mixin, mixinDevice],
   data () {
     return {
       production: config.production,
@@ -98,7 +105,7 @@ export default {
         return '0'
       }
       if (this.sidebarOpened) {
-        return '256px'
+        return WIDTH
       }
       return '80px'
     }
@@ -133,13 +140,16 @@ export default {
     paddingCalc () {
       let left = ''
       if (this.sidebarOpened) {
-        left = this.isDesktop() ? '256px' : '80px'
+        left = this.isDesktop() ? WIDTH : '80px'
       } else {
         left = (this.isMobile() && '0') || ((this.fixSidebar && '80px') || '0')
       }
       return left
     },
     menuSelect () {
+      if (!this.isDesktop()) {
+        this.collapsed = false
+      }
     },
     drawerClose () {
       this.collapsed = false
@@ -149,6 +159,8 @@ export default {
 </script>
 
 <style lang="less">
+@import url('../components/global.less');
+
 /*
  * The following styles are auto-applied to elements with
  * transition="page-transition" when their visibility is toggled

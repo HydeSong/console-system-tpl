@@ -1,10 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-23 20:03:18
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-09-26 16:50:50
- */
-
 const options = [
   {
     'value': '991000',

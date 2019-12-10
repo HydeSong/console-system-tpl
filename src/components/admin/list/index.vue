@@ -1,11 +1,3 @@
-<!--
- * @Author: zhangwc
- * @Date: 2019-08-19 14:02:47
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-23 15:32:55
- * @Description:
- -->
-
 <template>
   <div class="admin-list" :style="{padding:compact?'':20+'px'}">
     <div class="lk-custom">
@@ -120,7 +112,7 @@
             <transition name="slide-fade">
               <span style="color:#03324e;float:left" v-show="selections.length>0">
                 选中
-                <span style="color:#b0281b">{{selections.length}}</span> 条记录
+                <span style="color:#b0281b">{{ selections.length }}</span> 条记录
               </span>
             </transition>
             <!-- 共选择了 -->
@@ -587,7 +579,7 @@ export default {
             selectable: this.config.selectable === undefined || this.config.selectable,
             singleSelect: this.config.singleSelect || false,
             defaultQuery: this.config.defaultQuery === undefined ? undefined : this.config.defaultQuery,
-            onLoadData2: async (pageNum, pageSize) => {
+            onLoadData2: async(pageNum, pageSize) => {
               this.resultTable.loading = true
               const vm = this
               for (const key in this.resultTableParams) {

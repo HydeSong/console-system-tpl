@@ -1,11 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-30 09:24:37
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-10-11 17:12:50
- * 封装的可以自增的列表输入
- */
-
 <template>
   <div class="report-body" :style="{display:'table',padding:meta.padding}">
     <!-- {{value}} -->

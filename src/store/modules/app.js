@@ -24,7 +24,8 @@ const app = {
     autoHideHeader: false,
     color: null,
     weak: false,
-    multiTab: true
+    multiTab: true,
+    keepAlivePage: []
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -74,46 +75,58 @@ const app = {
     TOGGLE_MULTI_TAB: (state, bool) => {
       Vue.ls.set(DEFAULT_MULTI_TAB, bool)
       state.multiTab = bool
+    },
+    ADD_ALIVE_PAGE: (state, path) => {
+      state.keepAlivePage.push(path)
+    },
+    CLEAR_ALIVE_PAGE: (state) => {
+      state.keepAlivePage = []
     }
   },
   actions: {
-    setSidebar ({ commit }, type) {
+    addAlivePage(context, path) {
+      context.commit('ADD_ALIVE_PAGE', path)
+    },
+    clearAlivePage(context) {
+      context.commit('CLEAR_ALIVE_PAGE')
+    },
+    setSidebar({ commit }, type) {
       commit('SET_SIDEBAR_TYPE', type)
     },
-    CloseSidebar ({ commit }) {
+    CloseSidebar({ commit }) {
       commit('CLOSE_SIDEBAR')
     },
-    ToggleDevice ({ commit }, device) {
+    ToggleDevice({ commit }, device) {
       commit('TOGGLE_DEVICE', device)
     },
-    ToggleTheme ({ commit }, theme) {
+    ToggleTheme({ commit }, theme) {
       commit('TOGGLE_THEME', theme)
     },
-    ToggleLayoutMode ({ commit }, mode) {
+    ToggleLayoutMode({ commit }, mode) {
       commit('TOGGLE_LAYOUT_MODE', mode)
     },
-    ToggleFixedHeader ({ commit }, fixedHeader) {
+    ToggleFixedHeader({ commit }, fixedHeader) {
       if (!fixedHeader) {
         commit('TOGGLE_FIXED_HEADER_HIDDEN', false)
       }
       commit('TOGGLE_FIXED_HEADER', fixedHeader)
     },
-    ToggleFixSiderbar ({ commit }, fixSiderbar) {
+    ToggleFixSiderbar({ commit }, fixSiderbar) {
       commit('TOGGLE_FIXED_SIDERBAR', fixSiderbar)
     },
-    ToggleFixedHeaderHidden ({ commit }, show) {
+    ToggleFixedHeaderHidden({ commit }, show) {
       commit('TOGGLE_FIXED_HEADER_HIDDEN', show)
     },
-    ToggleContentWidth ({ commit }, type) {
+    ToggleContentWidth({ commit }, type) {
       commit('TOGGLE_CONTENT_WIDTH', type)
     },
-    ToggleColor ({ commit }, color) {
+    ToggleColor({ commit }, color) {
       commit('TOGGLE_COLOR', color)
     },
-    ToggleWeak ({ commit }, weakFlag) {
+    ToggleWeak({ commit }, weakFlag) {
       commit('TOGGLE_WEAK', weakFlag)
     },
-    ToggleMultiTab ({ commit }, bool) {
+    ToggleMultiTab({ commit }, bool) {
       commit('TOGGLE_MULTI_TAB', bool)
     }
   }

@@ -1,5 +1,32 @@
+<!--
+<template>
+  <div style="margin: -23px -24px 24px -24px">
+    &lt;!&ndash;<a-dropdown :trigger="['contextmenu']" overlayClassName="multi-tab-menu-wrapper">
+      <a-menu slot="overlay">
+        <a-menu-item key="1">1st menu item</a-menu-item>
+        <a-menu-item key="2">2nd menu item</a-menu-item>
+        <a-menu-item key="3">3rd menu item</a-menu-item>
+      </a-menu>
+    </a-dropdown>&ndash;&gt;
+    <a-tabs
+      hideAdd
+      v-model="activeKey"
+      type="editable-card"
+      :tabBarStyle="{ background: '#FFF', margin: 0, paddingLeft: '16px', paddingTop: '1px' }"
+      @edit="onEdit"
+    >
+      <a-tab-pane v-for="page in pages" :style="{ height: 0 }" :tab="page.meta.title" :key="page.fullPath" :closable="pages.length > 1">
+      </a-tab-pane>
+      <template slot="renderTabBar" slot-scope="props, DefaultTabBar">
+        <component :is="DefaultTabBar" {...props} />
+      </template>
+    </a-tabs>
+  </div>
+</template>
+-->
+
 <script>
-import events from './events'
+import tabState from './tabState'
 
 export default {
   name: 'MultiTab',
@@ -12,31 +39,15 @@ export default {
     }
   },
   created () {
-    // bind event
-    events.$on('open', val => {
-      if (!val) {
-        throw new Error(`multi-tab: open tab ${val} err`)
-      }
-      this.activeKey = val
-    }).$on('close', val => {
-      if (!val) {
-        this.closeThat(this.activeKey)
-        return
-      }
-      this.closeThat(val)
-    }).$on('rename', ({ key, name }) => {
-      console.log('rename', key, name)
-      try {
-        const item = this.pages.find(item => item.path === key)
-        item.meta.customTitle = name
-        this.$forceUpdate()
-      } catch (e) {
-      }
-    })
-
     this.pages.push(this.$route)
     this.fullPathList.push(this.$route.fullPath)
     this.selectedLastPath()
+    tabState.tabs = this.fullPathList
+    tabState.onNotify((type, params) => {
+      if (type === 'close') {
+        this.remove(params)
+      }
+    })
   },
   methods: {
     onEdit (targetKey, action) {
@@ -56,12 +67,7 @@ export default {
 
     // content menu
     closeThat (e) {
-      // 判断是否为最后一个标签页，如果是最后一个，则无法被关闭
-      if (this.fullPathList.length > 1) {
-        this.remove(e)
-      } else {
-        this.$message.info('这是最后一个标签了, 无法被关闭')
-      }
+      this.remove(e)
     },
     closeLeft (e) {
       const currentIndex = this.fullPathList.indexOf(e)
@@ -77,7 +83,7 @@ export default {
     },
     closeRight (e) {
       const currentIndex = this.fullPathList.indexOf(e)
-      if (currentIndex < (this.fullPathList.length - 1)) {
+      if (currentIndex < this.fullPathList.length - 1) {
         this.fullPathList.forEach((item, index) => {
           if (index > currentIndex) {
             this.remove(item)
@@ -95,32 +101,58 @@ export default {
         }
       })
     },
-    closeMenuClick (key, route) {
-      this[key](route)
+    closeMenuClick ({ key, item, domEvent }) {
+      const vkey = domEvent.target.getAttribute('data-vkey')
+      switch (key) {
+        case 'close-right':
+          this.closeRight(vkey)
+          break
+        case 'close-left':
+          this.closeLeft(vkey)
+          break
+        case 'close-all':
+          this.closeAll(vkey)
+          break
+        default:
+        case 'close-that':
+          this.closeThat(vkey)
+          break
+      }
     },
     renderTabPaneMenu (e) {
       return (
-        <a-menu {...{ on: { click: ({ key, item, domEvent }) => { this.closeMenuClick(key, e) } } }}>
-          <a-menu-item key="closeThat">关闭当前标签</a-menu-item>
-          <a-menu-item key="closeRight">关闭右侧</a-menu-item>
-          <a-menu-item key="closeLeft">关闭左侧</a-menu-item>
-          <a-menu-item key="closeAll">关闭全部</a-menu-item>
+        <a-menu {...{ on: { click: this.closeMenuClick } }}>
+          <a-menu-item key="close-that" data-vkey={e}>
+            关闭当前标签
+          </a-menu-item>
+          <a-menu-item key="close-right" data-vkey={e}>
+            关闭右侧
+          </a-menu-item>
+          <a-menu-item key="close-left" data-vkey={e}>
+            关闭左侧
+          </a-menu-item>
+          <a-menu-item key="close-all" data-vkey={e}>
+            关闭全部
+          </a-menu-item>
         </a-menu>
       )
     },
     // render
     renderTabPane (title, keyPath) {
       const menu = this.renderTabPaneMenu(keyPath)
-
+      let relTitle = title
+      if (this.$store.getters.routerMap[keyPath]) {
+        relTitle = this.$store.getters.routerMap[keyPath].meta.title
+      }
       return (
         <a-dropdown overlay={menu} trigger={['contextmenu']}>
-          <span style={{ userSelect: 'none' }}>{ title }</span>
+          <span style={{ userSelect: 'none' }}>{relTitle}</span>
         </a-dropdown>
       )
     }
   },
   watch: {
-    '$route': function (newVal) {
+    $route: function (newVal) {
       this.activeKey = newVal.fullPath
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
@@ -129,18 +161,26 @@ export default {
     },
     activeKey: function (newPathKey) {
       this.$router.push({ path: newPathKey })
+    },
+    fullPathList () {
+      // debugger
+      tabState.tabs = this.fullPathList
     }
   },
   render () {
-    const { onEdit, $data: { pages } } = this
+    const {
+      onEdit,
+      $data: { pages }
+    } = this
     const panes = pages.map(page => {
       return (
         <a-tab-pane
           style={{ height: 0 }}
-          tab={this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
-          key={page.fullPath} closable={pages.length > 1}
-        >
-        </a-tab-pane>)
+          tab={this.renderTabPane(page.meta.title, page.fullPath)}
+          key={page.fullPath}
+          closable={pages.length > 1}
+        ></a-tab-pane>
+      )
     })
 
     return (
@@ -150,8 +190,9 @@ export default {
             hideAdd
             type={'editable-card'}
             v-model={this.activeKey}
-            tabBarStyle={{ background: '#FFF', margin: 0, paddingLeft: '16px', paddingTop: '1px' }}
-            {...{ on: { edit: onEdit } }}>
+            tabBarStyle={{ background: '#e9e9e9', margin: 0, paddingLeft: '16px', paddingTop: '1px' }}
+            {...{ on: { edit: onEdit } }}
+          >
             {panes}
           </a-tabs>
         </div>

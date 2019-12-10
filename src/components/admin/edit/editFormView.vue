@@ -1,12 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-10-11 19:56:27
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-19 10:18:33
- * 动态表单组件
- * 根据配置渲染相应的组件，并集成验证方法
- */
-
 <template>
   <span v-if="form&&show" class="edit-form-view">
     <component

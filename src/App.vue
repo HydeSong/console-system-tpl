@@ -12,12 +12,12 @@ import { AppDeviceEnquire } from '@/utils/mixin'
 
 export default {
   mixins: [AppDeviceEnquire],
-  data () {
+  data() {
     return {
       locale: zhCN
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }

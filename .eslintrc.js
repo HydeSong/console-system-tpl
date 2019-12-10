@@ -41,13 +41,8 @@ module.exports = {
         'allowTemplateLiterals': true
       }
     ],
-    'semi': [
-      2,
-      'never',
-      {
-        'beforeStatementContinuationChars': 'never'
-      }
-    ],
+    'semi': ['error', 'never'],
+    'space-before-function-paren': ['error', {'anonymous': 'never', 'named': 'never', 'asyncArrow': 'never'}],
     'no-delete-var': 2,
     'prefer-const': [
       2,

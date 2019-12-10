@@ -1,10 +1,3 @@
-/*
- * @Author: zhangwencan
- * @Date: 2019-09-20 09:41:24
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-11-06 11:07:34
- */
-
 <template>
   <upload
     :fields="fields"

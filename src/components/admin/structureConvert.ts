@@ -1,10 +1,3 @@
-/*
- * @Author: zhangwencan 
- * @Date: 2019-09-11 11:45:57 
- * @Last Modified by: zhangwencan
- * @Last Modified time: 2019-09-19 11:19:58
- */
-
 /**
  * 用来转换json的节点数据，应付前端产生的数据和接口返回格式不同的情况比如
  * types:[1,3,4] 后端返回为 types:[{type:1},{type:3},{type:4}]
