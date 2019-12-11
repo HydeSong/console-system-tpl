@@ -16,16 +16,21 @@
     <!--</div>-->
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2019 <span>拉卡拉</span>
+      <a-icon type="copyright" /> {{ year }} <span>{{ company }}</span>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'GlobalFooter',
   data() {
-    return {}
+    return {
+      year: moment().format('YYYY'),
+      company: '拉卡拉'
+    }
   }
 }
 </script>
