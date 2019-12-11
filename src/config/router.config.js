@@ -29,6 +29,47 @@ export const asyncRouterMap = [
         ]
       },
 
+      // demo
+      {
+        path: '/demo',
+        name: 'demo',
+        redirect: '/demo/specification',
+        component: PageView,
+        meta: { title: 'DEMO', icon: 'tool', keepAlive: true },
+        children: [
+          {
+            path: '/demo/specification',
+            name: 'demo-specification',
+            component: () => import(/* webpackChunkName: "demo" */ '@/pages/demo/modelList.vue'),
+            meta: { title: 'x管理', keepAlive: false, hiddenHeaderContent: true }
+          },
+          {
+            path: '/demo/serial-no',
+            name: 'demo-serial-no',
+            component: () => import(/* webpackChunkName: "demo" */ '@/pages/demo/serialNumList.vue'),
+            meta: { title: 'xx管理', keepAlive: false, hiddenHeaderContent: true }
+          },
+          {
+            path: '/demo/app-version',
+            name: 'demo-app-version',
+            component: () => import(/* webpackChunkName: "demo" */ '@/pages/demo/deviceVer.vue'),
+            meta: { title: 'xxx管理', keepAlive: false, hiddenHeaderContent: true }
+          },
+          {
+            path: '/demo/pos',
+            name: 'demo-pos',
+            component: () => import(/* webpackChunkName: "demo" */ '@/pages/demo/devicePos.vue'),
+            meta: { title: 'xxxx管理', keepAlive: false, hiddenHeaderContent: true }
+          },
+          {
+            path: '/demo/whitelist',
+            name: 'demo-whitelist',
+            component: () => import(/* webpackChunkName: "demo" */ '@/pages/demo/whiteList.vue'),
+            meta: { title: 'xxxxxxx管理', keepAlive: false, hiddenHeaderContent: true }
+          }
+        ]
+      },
+
       // dashboard
       {
         path: '/dashboard',
