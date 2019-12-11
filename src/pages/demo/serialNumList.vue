@@ -1,11 +1,3 @@
-<!--
- * @Author: zhangwc
- * @Date: 2019-08-20 20:50:56
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-22 21:11:32
- * @Description:
- -->
-
 <template>
   <div>
     <list ref="list" :config="config" @selectionChange="rows=>selectedRows=rows" />

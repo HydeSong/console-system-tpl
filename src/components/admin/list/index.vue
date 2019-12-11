@@ -4,7 +4,7 @@
       <div
         v-if="module.showHeader"
         class="panel-body-local-bottom"
-        :style="{'border-bottom':compact?'': '1px solid #e8ebee;','padding-bottom':compact?'':'5px','padding-top':compact?'0px':'20px','margin':compact?'':'-20px -20px 0 -20px','padding-left':compact?'0px':'20px'}"
+        :style="{'border-bottom':compact?'': '1px solid #e8ebee;','padding-bottom':compact?'0':'5px','padding-top':compact?'0px':'20px','margin':compact?'':'-20px -20px 0 -20px','padding-left':compact?'0px':'20px'}"
       >
         <slot v-if="!compact" name="title"></slot>
         <a-form
@@ -42,7 +42,7 @@
 
           <!-- <slot name="filter" /> -->
           <a-form-item
-            :style="{'padding-left':compact?'':'90px','width':compact?'':'95%','border-top':compact?'':'1px dashed #e9e9e9','padding-top':compact?'2px':'8px','text-align':module.toolButtonAlign}"
+            :style="{'padding-left':compact?'':'90px','width':compact?'':'95%','border-top':compact?'':'1px dashed #e9e9e9','padding-top':compact?'2px':'8px','padding-bottom':compact?'2px':'8px','text-align':module.toolButtonAlign}"
           >
             <a-button
               v-if="module.filterFields&&module.filterFields.length>0"

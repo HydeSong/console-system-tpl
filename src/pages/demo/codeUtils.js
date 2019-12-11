@@ -1,10 +1,3 @@
-/*
- * @Author: zhangwc
- * @Date: 2019-08-19 13:52:19
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-23 20:56:11
- * @Description:
- */
 const str = `ZERO	0点
 ONE	1点
 TWO	2点

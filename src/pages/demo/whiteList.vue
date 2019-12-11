@@ -1,10 +1,3 @@
-<!--
- * @Author: zhangwc
- * @Date: 2019-08-21 09:17:34
- * @LastEditors: zhangwc
- * @LastEditTime: 2019-08-22 19:40:47
- * @Description: 设备白名单
- -->
 <template>
   <div>
     <list ref="list" :config="config" @selectionChange="rows=>selectedRows=rows" />
