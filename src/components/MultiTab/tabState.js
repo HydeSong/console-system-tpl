@@ -8,7 +8,7 @@ export default new Vue({
     notifyCallbak: []
   },
   watch: {
-    tabs (val) {
+    tabs(val) {
       this.$nextTick(() => {
         for (const callback of this.callback) {
           callback(this.canKeepAlivePage())
@@ -17,35 +17,35 @@ export default new Vue({
     }
   },
   methods: {
-    bindRouterView (componentName, routePath) {
+    bindRouterView(componentName, routePath) {
       // if (!this.routerComponents[componentName]) {
       this.routerComponents[componentName] = routePath
       // }
     },
-    close (path) {
+    close(path) {
       this.notify('close', path)
       return new Promise((resolve, reject) => {
         setTimeout(() => resolve(), 10)
       })
     },
-    onKeepAliveChange (callback) {
+    onKeepAliveChange(callback) {
       if (callback instanceof Function) {
         this.callback.push(callback)
       }
     },
-    onNotify (callback) {
+    onNotify(callback) {
       if (callback instanceof Function) {
         this.notifyCallbak.push(callback)
       }
     },
-    notify (type, params) {
+    notify(type, params) {
       this.$nextTick(() => {
         for (const callback of this.notifyCallbak) {
           callback(type, params)
         }
       })
     },
-    canKeepAlivePage () {
+    canKeepAlivePage() {
       const array = []
       for (const key in this.routerComponents) {
         const path = this.routerComponents[key]

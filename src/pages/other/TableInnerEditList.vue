@@ -83,8 +83,8 @@
       :alert="{ show: true, clear: true }"
       :rowSelection="{ selectedRowKeys: this.selectedRowKeys, onChange: this.onSelectChange }"
     >
-      <template v-for="(col, index) in columns" v-if="col.scopedSlots" :slot="col.dataIndex" slot-scope="text, record">
-        <div :key="index">
+      <template v-if="col.scopedSlots" :slot="col.dataIndex" slot-scope="text, record">
+        <div v-for="(col, index) in columns" :key="index">
           <a-input
             v-if="record.editable"
             style="margin: -5px 0"
@@ -123,7 +123,7 @@ export default {
   components: {
     STable
   },
-  data () {
+  data() {
     return {
       // 高级搜索 展开/关闭
       advanced: false,
@@ -186,56 +186,56 @@ export default {
   },
   methods: {
 
-    handleChange (value, key, column, record) {
+    handleChange(value, key, column, record) {
       console.log(value, key, column)
       record[column.dataIndex] = value
     },
-    edit (row) {
+    edit(row) {
       row.editable = true
       // row = Object.assign({}, row)
     },
     // eslint-disable-next-line
-    del (row) {
+    del(row) {
       this.$confirm({
         title: '警告',
         content: `真的要删除 ${row.no} 吗?`,
         okText: '删除',
         okType: 'danger',
         cancelText: '取消',
-        onOk () {
+        onOk() {
           console.log('OK')
           // 在这里调用删除接口
           return new Promise((resolve, reject) => {
             setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel () {
+        onCancel() {
           console.log('Cancel')
         }
       })
     },
-    save (row) {
+    save(row) {
       row.editable = false
     },
-    cancel (row) {
+    cancel(row) {
       row.editable = false
     },
 
-    onSelectChange (selectedRowKeys, selectedRows) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    toggleAdvanced () {
+    toggleAdvanced() {
       this.advanced = !this.advanced
     }
   },
   watch: {
     /*
-      'selectedRows': function (selectedRows) {
+      'selectedRows': function(selectedRows) {
         this.needTotalList = this.needTotalList.map(item => {
           return {
             ...item,
-            total: selectedRows.reduce( (sum, val) => {
+            total: selectedRows.reduce((sum, val) => {
               return sum + val[item.dataIndex]
             }, 0)
           }
@@ -260,7 +260,7 @@ export default {
     margin-bottom: 18px;
   }
 
-  @media screen and (max-width: 900px) {
+  @media screen and(max-width: 900px) {
     .fold {
       width: 100%;
     }

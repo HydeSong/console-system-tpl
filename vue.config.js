@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const createThemeColorReplacerPlugin = require('./config/plugin.config')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -74,7 +74,7 @@ const vueConfig = {
         modifyVars: {
           // less vars，customize ant design theme
 
-          // 'primary-color': '#F5222D',
+          'primary-color': '#00b0ec',
           // 'link-color': '#F5222D',
           // 'border-radius-base': '4px'
           'border-radius-base': '2px',

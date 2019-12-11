@@ -12,20 +12,20 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       name: '',
       breadList: []
     }
   },
-  created () {
+  created() {
     this.getBreadcrumb()
   },
   methods: {
-    fomatTitle (path) {
+    fomatTitle(path) {
       return this.$store.getters.routerMap[path] ? this.$store.getters.routerMap[path].meta.title : null
     },
-    getBreadcrumb () {
+    getBreadcrumb() {
       this.breadList = []
       // this.breadList.push({name: 'index', path: '/dashboard/', meta: {title: '首页'}})
 
@@ -39,7 +39,7 @@ export default {
     }
   },
   watch: {
-    $route () {
+    $route() {
       this.getBreadcrumb()
     }
   }

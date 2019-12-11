@@ -74,7 +74,7 @@ export default {
     Result
   },
   mixins: [mixinDevice],
-  data () {
+  data() {
     return {
       title: '提交成功',
       description: '提交结果页用于反馈一系列操作任务的处理结果，\n' +

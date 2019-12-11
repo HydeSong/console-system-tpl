@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'SearchLayout',
-  data () {
+  data() {
     return {
       tabs: {
         items: [

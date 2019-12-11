@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       labelCol: {
         xs: { span: 24 },
@@ -40,10 +40,10 @@ export default {
     }
   },
   methods: {
-    add () {
+    add() {
       this.visible = true
     },
-    handleSubmit () {
+    handleSubmit() {
       const { form: { validateFields } } = this
       this.confirmLoading = true
       validateFields((errors, values) => {
@@ -59,7 +59,7 @@ export default {
         }
       })
     },
-    handleCancel () {
+    handleCancel() {
       this.visible = false
     }
   }

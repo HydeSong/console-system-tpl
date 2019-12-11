@@ -36,7 +36,7 @@ export default {
     type: {
       type: String,
       default: resultEnum[0],
-      validator (val) {
+      validator(val) {
         return (val) => resultEnum.includes(val)
       }
     },
@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    localIsSuccess: function () {
+    localIsSuccess: function() {
       return this.type === resultEnum[0]
     }
   }

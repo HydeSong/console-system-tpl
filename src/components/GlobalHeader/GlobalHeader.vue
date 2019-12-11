@@ -69,20 +69,20 @@ export default {
       default: 'desktop'
     }
   },
-  data () {
+  data() {
     return {
       visible: true,
       oldScrollTop: 0
     }
   },
-  mounted () {
+  mounted() {
     document.addEventListener('scroll', this.handleScroll, { passive: true })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     document.body.removeEventListener('scroll', this.handleScroll, true)
   },
   methods: {
-    handleScroll () {
+    handleScroll() {
       if (!this.autoHideHeader) {
         return
       }
@@ -103,7 +103,7 @@ export default {
         })
       }
     },
-    toggle () {
+    toggle() {
       this.$emit('toggle')
     }
   }

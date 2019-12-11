@@ -64,7 +64,7 @@
                 tabindex="-1"
                 :disabled="state.smsSendBtn"
                 @click.stop.prevent="getCaptcha"
-                v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"
+                v-text="!state.smsSendBtn && '获取验证码' ||(state.time+' s')"
               ></a-button>
             </a-col>
           </a-row>
@@ -126,7 +126,7 @@ export default {
   components: {
     TwoStepCaptcha
   },
-  data () {
+  data() {
     return {
       customActiveKey: 'tab1',
       loginBtn: false,
@@ -145,7 +145,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     get2step({ })
       .then(res => {
         this.requiredTwoStepCaptcha = res.result.stepCode
@@ -158,7 +158,7 @@ export default {
   methods: {
     ...mapActions(['Login', 'Logout']),
     // handler
-    handleUsernameOrEmail (rule, value, callback) {
+    handleUsernameOrEmail(rule, value, callback) {
       const { state } = this
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
       if (regex.test(value)) {
@@ -168,11 +168,11 @@ export default {
       }
       callback()
     },
-    handleTabClick (key) {
+    handleTabClick(key) {
       this.customActiveKey = key
       // this.form.resetFields()
     },
-    handleSubmit (e) {
+    handleSubmit(e) {
       e.preventDefault()
       const {
         form: { validateFields },
@@ -205,7 +205,7 @@ export default {
         }
       })
     },
-    getCaptcha (e) {
+    getCaptcha(e) {
       e.preventDefault()
       const { form: { validateFields }, state } = this
 
@@ -239,16 +239,16 @@ export default {
         }
       })
     },
-    stepCaptchaSuccess () {
+    stepCaptchaSuccess() {
       this.loginSuccess()
     },
-    stepCaptchaCancel () {
+    stepCaptchaCancel() {
       this.Logout().then(() => {
         this.loginBtn = false
         this.stepCaptchaVisible = false
       })
     },
-    loginSuccess (res) {
+    loginSuccess(res) {
       console.log(res)
       // check res.homePage define, set $router.push name res.homePage
       // Why not enter onComplete
@@ -271,7 +271,7 @@ export default {
       }, 1000)
       this.isLoginError = false
     },
-    requestFailed (err) {
+    requestFailed(err) {
       this.isLoginError = true
       this.$notification['error']({
         message: '错误',

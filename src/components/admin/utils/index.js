@@ -65,7 +65,7 @@ function validateItemRule(value, item) {
   if (item.rules) {
     for (const rule of item.rules.split('|')) {
       let params = null
-      const type = rule.replace(/\[(.*)\]/g, function () {
+      const type = rule.replace(/\[(.*)\]/g, function() {
         // console.log(arguments[0])
         if (arguments[0]) {
           params = arguments[1].split(',')
@@ -85,10 +85,10 @@ function validateItemRule(value, item) {
   return null
 }
 
-const msgFormat = function (msg, param) {
+const msgFormat = function(msg, param) {
   if (param !== undefined && param instanceof Array) {
-    param.forEach(function (value, index) {
-      msg = msg.replace(new RegExp('\\{' + index + '\\}', 'g'), function () {
+    param.forEach(function(value, index) {
+      msg = msg.replace(new RegExp('\\{' + index + '\\}', 'g'), function() {
         return value
       })
     })

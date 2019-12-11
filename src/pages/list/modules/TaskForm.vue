@@ -39,7 +39,7 @@
 <script>
 export default {
   name: 'TaskForm',
-  data () {
+  data() {
     return {
       labelCol: {
         xs: { span: 24 },
@@ -55,17 +55,17 @@ export default {
     }
   },
   methods: {
-    add () {
+    add() {
       this.visible = true
     },
-    edit (record) {
+    edit(record) {
       const { form: { setFieldsValue } } = this
       this.visible = true
       this.$nextTick(() => {
         setFieldsValue({ taskName: 'test' })
       })
     },
-    handleSubmit () {
+    handleSubmit() {
       const { form: { validateFields } } = this
       this.visible = true
       validateFields((errors, values) => {

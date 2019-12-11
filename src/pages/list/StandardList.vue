@@ -134,7 +134,7 @@ export default {
     HeadInfo,
     TaskForm
   },
-  data () {
+  data() {
     return {
       data,
       status: 'all'

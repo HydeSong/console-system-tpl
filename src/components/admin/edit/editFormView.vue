@@ -11,7 +11,7 @@
       :style="{width:item.width||itemWidth}"
       @created="(val)=>{item.created?item.created(val):''}"
       @notify="val=>item.notify?item.notify(val):''"
-      @change="(val)=>{if(item.change)item.change(val);}"
+      @change="(val)=>{if (item.change)item.change(val);}"
       v-model="form"
       :is-edit-item="true"
       :is-custom="true"
@@ -29,7 +29,7 @@
       :width="item.width||itemWidth"
       @created="(val)=>{item.created?item.created(val):''}"
       @notify="val=>item.notify?item.notify(val):''"
-      @change="(val)=>{validateItem(form[item.prop],item);if(item.change)item.change(val);}"
+      @change="(val)=>{validateItem(form[item.prop],item);if (item.change)item.change(val);}"
       v-model="form[item.prop]"
       :form="form"
       :is-edit-item="true"
@@ -46,7 +46,7 @@
       :is-edit-item="true"
       :item="item"
       :style="{width:itemWidth}"
-      @change="(val)=>{validateItem(form[item.prop],item);if(item.change)item.change(val);}"
+      @change="(val)=>{validateItem(form[item.prop],item);if (item.change)item.change(val);}"
     />
     <a-checkbox
       v-else-if="item.type==='checkbox'&&!item.choice"
@@ -64,7 +64,7 @@
       :options="item.choice"
       :is-edit-item="true"
       :item="item"
-      @change="(val)=>{validateItem(form[item.prop],item);if(item.change)item.change(val);}"
+      @change="(val)=>{validateItem(form[item.prop],item);if (item.change)item.change(val);}"
     >
       <a-checkbox
         v-for="(item, index) in item.choice"
@@ -90,7 +90,7 @@
       :item="item"
     />
     <a-select
-      v-else-if="item.choice&&(typeof(item.choice)==='function')"
+      v-else-if="item.choice&& (typeof(item.choice)==='function')"
       :ref="item._key"
       v-model="form[item.prop]"
       :multiple="item.multi"

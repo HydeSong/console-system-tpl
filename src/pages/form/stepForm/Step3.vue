@@ -37,16 +37,16 @@ export default {
   components: {
     Result
   },
-  data () {
+  data() {
     return {
       loading: false
     }
   },
   methods: {
-    finish () {
+    finish() {
       this.$emit('finish')
     },
-    toOrderList () {
+    toOrderList() {
       this.$router.push('/list/table-list')
     }
   }

@@ -58,7 +58,7 @@ export default {
     PageView
   },
   mixins: [mixinDevice],
-  data () {
+  data() {
     return {
       // horizontal  inline
       mode: 'inline',
@@ -87,20 +87,20 @@ export default {
       pageTitle: ''
     }
   },
-  created () {
+  created() {
     this.updateMenu()
   },
   methods: {
-    onOpenChange (openKeys) {
+    onOpenChange(openKeys) {
       this.openKeys = openKeys
     },
-    updateMenu () {
+    updateMenu() {
       const routes = this.$route.matched.concat()
       this.selectedKeys = [ routes.pop().path ]
     }
   },
   watch: {
-    '$route' (val) {
+    '$route'(val) {
       this.updateMenu()
     }
   }

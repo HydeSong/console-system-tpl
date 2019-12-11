@@ -85,7 +85,7 @@ export default {
       default: null
     }
   },
-  data () {
+  data() {
     return {
       tabState,
       pageTitle: null,
@@ -102,7 +102,7 @@ export default {
       multiTab: state => state.app.multiTab
     })
   },
-  mounted () {
+  mounted() {
     this.tabs = this.directTabs
     this.getPageMeta()
     tabState.onKeepAliveChange(value => {
@@ -113,7 +113,7 @@ export default {
       this.$route.fullPath
     )
   },
-  updated () {
+  updated() {
     this.getPageMeta()
     tabState.bindRouterView(
       this.$refs.content.$vnode.tag.substring(this.$refs.content.$vnode.tag.lastIndexOf('-') + 1),
@@ -121,7 +121,7 @@ export default {
     )
   },
   methods: {
-    getPageMeta () {
+    getPageMeta() {
       // eslint-disable-next-line
       this.pageTitle = typeof this.title === 'string' || !this.title ? this.title : this.$route.meta.title
 

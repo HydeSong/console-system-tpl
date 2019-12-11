@@ -7,10 +7,10 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {}
   },
-  render () {
+  render() {
     // const {
     //   $route: { meta },
     //   $store: { getters }

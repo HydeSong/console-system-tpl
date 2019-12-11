@@ -98,7 +98,7 @@
           --currentSample;
 
           // Interpolate to provide an initial guess for t
-          var dist=(aX - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
+          var dist= (aX - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
           var guessForT=intervalStart + dist * kSampleStepSize;
 
           var initialSlope=getSlope(guessForT, mX1, mX2);
@@ -167,7 +167,7 @@
 
       function tinycolor (color, opts) {
 
-        color=(color) ? color : '';
+        color= (color) ? color : '';
 
         opts=opts || {}
 
@@ -688,9 +688,9 @@
         b=bound01(b, 255);
 
         var max=mathMax(r, g, b), min=mathMin(r, g, b);
-        var h, s, l=(max + min) / 2;
+        var h, s, l= (max + min) / 2;
 
-        if(max==min) {
+        if (max==min) {
           h=s=0; // achromatic
         }
 
@@ -698,10 +698,10 @@
           var d=max - min;
           s=l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
-          switch(max) {
-            case r: h=(g - b) / d + (g < b ? 6 : 0); break;
-            case g: h=(b - r) / d + 2; break;
-            case b: h=(r - g) / d + 4; break;
+          switch (max) {
+            case r: h= (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h= (b - r) / d + 2; break;
+            case b: h= (r - g) / d + 4; break;
           }
 
           h /=6;
@@ -726,15 +726,15 @@
         l=bound01(l, 100);
 
         function hue2rgb(p, q, t) {
-          if(t < 0) t +=1;
-          if(t > 1) t -=1;
-          if(t < 1/6) return p + (q - p) * 6 * t;
-          if(t < 1/2) return q;
-          if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          if (t < 0) t +=1;
+          if (t > 1) t -=1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
           return p;
         }
 
-        if(s===0) {
+        if (s===0) {
           r=g=b=l; // achromatic
         }
 
@@ -769,15 +769,15 @@
         var d=max - min;
         s=max===0 ? 0 : d / max;
 
-        if(max==min) {
+        if (max==min) {
           h=0; // achromatic
         }
 
         else {
-          switch(max) {
-            case r: h=(g - b) / d + (g < b ? 6 : 0); break;
-            case g: h=(b - r) / d + 2; break;
-            case b: h=(r - g) / d + 4; break;
+          switch (max) {
+            case r: h= (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h= (b - r) / d + 2; break;
+            case b: h= (r - g) / d + 4; break;
           }
 
           h /=6;
@@ -897,7 +897,7 @@
       // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
 
       function desaturate(color, amount) {
-        amount=(amount===0) ? 0 : (amount || 10);
+        amount= (amount===0) ? 0 : (amount || 10);
         var hsl=tinycolor(color).toHsl();
         hsl.s -=amount / 100;
         hsl.s=clamp01(hsl.s);
@@ -905,7 +905,7 @@
       }
 
       function saturate(color, amount) {
-        amount=(amount===0) ? 0 : (amount || 10);
+        amount= (amount===0) ? 0 : (amount || 10);
         var hsl=tinycolor(color).toHsl();
         hsl.s +=amount / 100;
         hsl.s=clamp01(hsl.s);
@@ -917,7 +917,7 @@
       }
 
       function lighten (color, amount) {
-        amount=(amount===0) ? 0 : (amount || 10);
+        amount= (amount===0) ? 0 : (amount || 10);
         var hsl=tinycolor(color).toHsl();
         hsl.l +=amount / 100;
         hsl.l=clamp01(hsl.l);
@@ -925,7 +925,7 @@
       }
 
       function brighten(color, amount) {
-        amount=(amount===0) ? 0 : (amount || 10);
+        amount= (amount===0) ? 0 : (amount || 10);
         var rgb=tinycolor(color).toRgb();
         rgb.r=mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
         rgb.g=mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
@@ -934,7 +934,7 @@
       }
 
       function darken (color, amount) {
-        amount=(amount===0) ? 0 : (amount || 10);
+        amount= (amount===0) ? 0 : (amount || 10);
         var hsl=tinycolor(color).toHsl();
         hsl.l -=amount / 100;
         hsl.l=clamp01(hsl.l);
@@ -945,7 +945,7 @@
       // Values outside of this range will be wrapped into this range.
       function spin(color, amount) {
         var hsl=tinycolor(color).toHsl();
-        var hue=(hsl.h + amount) % 360;
+        var hue= (hsl.h + amount) % 360;
         hsl.h=hue < 0 ? 360 + hue : hue;
         return tinycolor(hsl);
       }
@@ -957,7 +957,7 @@
 
       function complement(color) {
         var hsl=tinycolor(color).toHsl();
-        hsl.h=(hsl.h + 180) % 360;
+        hsl.h= (hsl.h + 180) % 360;
         return tinycolor(hsl);
       }
 
@@ -1025,8 +1025,8 @@
         var part=360 / slices;
         var ret=[tinycolor(color)];
 
-        for (hsl.h=((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
-          hsl.h=(hsl.h + part) % 360;
+        for (hsl.h= ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
+          hsl.h= (hsl.h + part) % 360;
           ret.push(tinycolor(hsl));
         }
 
@@ -1046,7 +1046,7 @@
               }
 
             ));
-          v=(v + modification) % 1;
+          v= (v + modification) % 1;
         }
 
         return ret;
@@ -1056,7 +1056,7 @@
       // ---------------------
 
       tinycolor.mix=function(color1, color2, amount) {
-        amount=(amount===0) ? 0 : (amount || 50);
+        amount= (amount===0) ? 0 : (amount || 50);
 
         var rgb1=tinycolor(color1).toRgb();
         var rgb2=tinycolor(color2).toRgb();
@@ -1412,7 +1412,7 @@
       // Replace a decimal with it's percentage value
       function convertToPercentage(n) {
         if (n <=1) {
-          n=(n * 100) + "%";
+          n= (n * 100) + "%";
         }
 
         return n;
@@ -1428,7 +1428,7 @@
         return (parseIntFromHex(h) / 255);
       }
 
-      var matchers=(function() {
+      var matchers= (function() {
 
           // <http://www.w3.org/TR/css3-values/#integers>
           var CSS_INTEGER="[-\\+]?\\d+%?";
@@ -1662,8 +1662,8 @@
         }
 
         ;
-        level=(parms.level || "AA").toUpperCase();
-        size=(parms.size || "small").toLowerCase();
+        level= (parms.level || "AA").toUpperCase();
+        size= (parms.size || "small").toLowerCase();
 
         if (level !=="AA"&& level !=="AAA") {
           level="AA";

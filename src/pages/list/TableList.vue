@@ -143,7 +143,7 @@ export default {
     CreateForm,
     StepByStepModal
   },
-  data () {
+  data() {
     return {
       mdl: {},
       // 高级搜索 展开/关闭
@@ -212,19 +212,19 @@ export default {
     }
   },
   filters: {
-    statusFilter (type) {
+    statusFilter(type) {
       return statusMap[type].text
     },
-    statusTypeFilter (type) {
+    statusTypeFilter(type) {
       return statusMap[type].status
     }
   },
-  created () {
+  created() {
     this.tableOption()
     getRoleList({ t: new Date() })
   },
   methods: {
-    tableOption () {
+    tableOption() {
       if (!this.optionAlertShow) {
         this.options = {
           alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
@@ -249,28 +249,28 @@ export default {
       }
     },
 
-    handleEdit (record) {
+    handleEdit(record) {
       console.log(record)
       this.$refs.modal.edit(record)
     },
-    handleSub (record) {
+    handleSub(record) {
       if (record.status !== 0) {
         this.$message.info(`${record.no} 订阅成功`)
       } else {
         this.$message.error(`${record.no} 订阅失败，规则已关闭`)
       }
     },
-    handleOk () {
+    handleOk() {
       this.$refs.table.refresh()
     },
-    onSelectChange (selectedRowKeys, selectedRows) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    toggleAdvanced () {
+    toggleAdvanced() {
       this.advanced = !this.advanced
     },
-    resetSearchForm () {
+    resetSearchForm() {
       this.queryParam = {
         date: moment(new Date())
       }

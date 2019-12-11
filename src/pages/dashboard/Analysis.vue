@@ -329,7 +329,7 @@ export default {
     NumberInfo,
     MiniSmoothArea
   },
-  data () {
+  data() {
     return {
       loading: true,
       rankList,
@@ -353,7 +353,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     setTimeout(() => {
       this.loading = !this.loading
     }, 1000)

@@ -172,7 +172,7 @@ export default {
         actionButton: true,
         notify: null,
         onResult(_data) {
-          // if(vm.$refs.optComponent.get){}
+          // if (vm.$refs.optComponent.get){}
           // if (vm.optComponentDialog.item.onResult) {
           //   vm.optComponentDialog.item.onResult(data)
           // }

@@ -25,13 +25,13 @@ export default {
       default: '404'
     }
   },
-  data () {
+  data() {
     return {
       config: types
     }
   },
   methods: {
-    handleToHome () {
+    handleToHome() {
       this.$router.push({ name: 'dashboard' })
     }
   }
@@ -100,7 +100,7 @@ export default {
   }
 }
 
-@media screen and (max-width: @screen-xl) {
+@media screen and(max-width: @screen-xl) {
   .exception {
     .imgBlock {
       padding-right: 88px;
@@ -108,7 +108,7 @@ export default {
   }
 }
 
-@media screen and (max-width: @screen-sm) {
+@media screen and(max-width: @screen-sm) {
   .exception {
     display: block;
     text-align: center;
@@ -119,7 +119,7 @@ export default {
   }
 }
 
-@media screen and (max-width: @screen-xs) {
+@media screen and(max-width: @screen-xs) {
   .exception {
     .imgBlock {
       margin-bottom: -24px;

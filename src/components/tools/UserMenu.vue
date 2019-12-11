@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     ...mapActions(['Logout']),
-    handleLogout () {
+    handleLogout() {
       this.$confirm({
         title: '提示',
         content: '真的要注销登录吗 ?',
@@ -73,7 +73,7 @@ export default {
             })
           })
         },
-        onCancel () {
+        onCancel() {
         }
       })
     }

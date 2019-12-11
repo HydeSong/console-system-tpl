@@ -30,7 +30,7 @@ import tabState from './tabState'
 
 export default {
   name: 'MultiTab',
-  data () {
+  data() {
     return {
       fullPathList: [],
       pages: [],
@@ -38,7 +38,7 @@ export default {
       newTabIndex: 0
     }
   },
-  created () {
+  created() {
     this.pages.push(this.$route)
     this.fullPathList.push(this.$route.fullPath)
     this.selectedLastPath()
@@ -50,10 +50,10 @@ export default {
     })
   },
   methods: {
-    onEdit (targetKey, action) {
+    onEdit(targetKey, action) {
       this[action](targetKey)
     },
-    remove (targetKey) {
+    remove(targetKey) {
       this.pages = this.pages.filter(page => page.fullPath !== targetKey)
       this.fullPathList = this.fullPathList.filter(path => path !== targetKey)
       // 判断当前标签是否关闭，若关闭则跳转到最后一个还存在的标签页
@@ -61,15 +61,15 @@ export default {
         this.selectedLastPath()
       }
     },
-    selectedLastPath () {
+    selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
     },
 
     // content menu
-    closeThat (e) {
+    closeThat(e) {
       this.remove(e)
     },
-    closeLeft (e) {
+    closeLeft(e) {
       const currentIndex = this.fullPathList.indexOf(e)
       if (currentIndex > 0) {
         this.fullPathList.forEach((item, index) => {
@@ -81,7 +81,7 @@ export default {
         this.$message.info('左侧没有标签')
       }
     },
-    closeRight (e) {
+    closeRight(e) {
       const currentIndex = this.fullPathList.indexOf(e)
       if (currentIndex < this.fullPathList.length - 1) {
         this.fullPathList.forEach((item, index) => {
@@ -93,7 +93,7 @@ export default {
         this.$message.info('右侧没有标签')
       }
     },
-    closeAll (e) {
+    closeAll(e) {
       const currentIndex = this.fullPathList.indexOf(e)
       this.fullPathList.forEach((item, index) => {
         if (index !== currentIndex) {
@@ -101,7 +101,7 @@ export default {
         }
       })
     },
-    closeMenuClick ({ key, item, domEvent }) {
+    closeMenuClick({ key, item, domEvent }) {
       const vkey = domEvent.target.getAttribute('data-vkey')
       switch (key) {
         case 'close-right':
@@ -119,7 +119,7 @@ export default {
           break
       }
     },
-    renderTabPaneMenu (e) {
+    renderTabPaneMenu(e) {
       return (
         <a-menu {...{ on: { click: this.closeMenuClick } }}>
           <a-menu-item key="close-that" data-vkey={e}>
@@ -138,7 +138,7 @@ export default {
       )
     },
     // render
-    renderTabPane (title, keyPath) {
+    renderTabPane(title, keyPath) {
       const menu = this.renderTabPaneMenu(keyPath)
       let relTitle = title
       if (this.$store.getters.routerMap[keyPath]) {
@@ -152,22 +152,22 @@ export default {
     }
   },
   watch: {
-    $route: function (newVal) {
+    $route: function(newVal) {
       this.activeKey = newVal.fullPath
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
         this.pages.push(newVal)
       }
     },
-    activeKey: function (newPathKey) {
+    activeKey: function(newPathKey) {
       this.$router.push({ path: newPathKey })
     },
-    fullPathList () {
+    fullPathList() {
       // debugger
       tabState.tabs = this.fullPathList
     }
   },
-  render () {
+  render() {
     const {
       onEdit,
       $data: { pages }

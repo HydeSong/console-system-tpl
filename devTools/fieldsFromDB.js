@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 
 // 下划线转换驼峰
 function toHump(name) {
-  return name.toLowerCase().replace(/\_(\w)/g, function (all, letter) {
+  return name.toLowerCase().replace(/\_(\w)/g, function(all, letter) {
     return letter.toUpperCase()
   })
 }
@@ -23,7 +23,7 @@ function toLine(name) {
 function queryTable(tableName) {
   connection.connect()
 
-  connection.query(`SELECT column_name as prop,COLUMN_COMMENT as label FROM information_schema.columns WHERE TABLE_NAME="${tableName}";`, function (error, results, fields) {
+  connection.query(`SELECT column_name as prop,COLUMN_COMMENT as label FROM information_schema.columns WHERE TABLE_NAME="${tableName}";`, function(error, results, fields) {
     if (error) throw error
     console.log('The solution is: ', results)
     const list = results.map(({ prop, label }) => {

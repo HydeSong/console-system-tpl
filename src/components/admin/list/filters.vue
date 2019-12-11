@@ -8,7 +8,7 @@
       :label="compact?'':item.label"
     >
       <a-select
-        v-if="item.choice&&(typeof(item.choice)==='function')"
+        v-if="item.choice&& (typeof(item.choice)==='function')"
         v-model="resultTableParams[item.prop]"
         allow-clear
         :placeholder="compact?item.label:'请选择'"
@@ -65,7 +65,7 @@
         clearable
         :style="{width:itemWidth}"
         maxlength="100"
-        @search="showProxyComponent(item,resultTableParams,(item.prefix?item.prefix:'')+item.prop)"
+        @search="showProxyComponent(item,resultTableParams, (item.prefix?item.prefix:'')+item.prop)"
       >
         <a-button slot="enterButton" icon="ellipsis" />
         <!-- <a-icon slot="enterButton" type="ellipsis" /> -->

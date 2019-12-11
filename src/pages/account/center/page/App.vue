@@ -71,7 +71,7 @@ for (let i = 0; i < 11; i++) {
 export default {
   name: 'Article',
   components: {},
-  data () {
+  data() {
     return {
       dataSource
     }

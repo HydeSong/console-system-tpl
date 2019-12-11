@@ -66,7 +66,7 @@
                 plain
                 :type="module.addButton.type?module.addButton.type:'info'"
                 icon="plus-circle"
-                @click="()=>{if(module.addButton.click){module.addButton.click.call(this)}else{editDialog.visible = true;editDialog.isupdate = false;$set(editDialog,'data',{})}}"
+                @click="()=>{if (module.addButton.click){module.addButton.click.call(this)}else{editDialog.visible = true;editDialog.isupdate = false;$set(editDialog,'data',{})}}"
               >{{ module.addButton.label }}</a-button>
 
               <a-button
@@ -85,7 +85,7 @@
                 plain
                 :icon="item.icon"
                 :type="item.type?item.type:'dashed'"
-                @click="()=>{if(item.component&&beforeComponent(item)){showProxyComponent2(item)}else{item.click()}}"
+                @click="()=>{if (item.component&&beforeComponent(item)){showProxyComponent2(item)}else{item.click()}}"
               >{{ item.label }}</a-button>
             </span>
           </a-form-item>
@@ -298,7 +298,7 @@ export default {
         actionButton: true,
         notify: null,
         onResult(_data) {
-          // if(vm.$refs.proxyComponent2.get){}
+          // if (vm.$refs.proxyComponent2.get){}
           // if (vm.proxyComponentDialog2.item.onResult) {
           //   vm.proxyComponentDialog2.item.onResult(data)
           // }

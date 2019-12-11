@@ -15,12 +15,12 @@ export default {
     Meta
   },
   mixins: [mixin],
-  data () {
+  data() {
     return {
     }
   },
   filters: {
-    themeFilter (theme) {
+    themeFilter(theme) {
       const themeMap = {
         'dark': '暗色',
         'light': '白色'
@@ -29,12 +29,12 @@ export default {
     }
   },
   methods: {
-    colorFilter (color) {
+    colorFilter(color) {
       const c = colorList.find(o => o.color === color)
       return c && c.key
     },
 
-    onChange (checked) {
+    onChange(checked) {
       if (checked) {
         this.$store.dispatch('ToggleTheme', 'dark')
       } else {
@@ -42,7 +42,7 @@ export default {
       }
     }
   },
-  render () {
+  render() {
     return (
       <AList itemLayout="horizontal">
         <AListItem>

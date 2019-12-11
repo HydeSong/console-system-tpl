@@ -122,29 +122,27 @@ export default {
           filePath: this.path,
           bizCode: this.type
         }
+      }).then(data => {
+        this.$message.info(data.message)
+        if (data.code === '000000') {
+          // this.$refs.list.resultTable.reload()
+          this.visible = false
+        }
+      }).catch(data => {
+        // this.$message.error(data.message)
+        // if (data.data.errFilePath) {
+        //   location.href =
+        //     location.origin + '/mmsweb/attach/downLoadAttach?fileName=error.xls&storePath=' + data.data.errFilePath
+        // }
+        // if (data.data.resultFilePath) {
+        //   setTimeout(() => {
+        //     location.href =
+        //       location.origin +
+        //       '/mmsweb/attach/downLoadAttach?fileName=result.xls&storePath=' +
+        //       data.data.resultFilePath
+        //   }, 300)
+        // }
       })
-        .then(data => {
-          this.$message.info(data.message)
-          if (data.code === '000000') {
-            // this.$refs.list.resultTable.reload()
-            this.visible = false
-          }
-        })
-        .catch(data => {
-          // this.$message.error(data.message)
-          // if (data.data.errFilePath) {
-          //   location.href =
-          //     location.origin + '/mmsweb/attach/downLoadAttach?fileName=error.xls&storePath=' + data.data.errFilePath
-          // }
-          // if (data.data.resultFilePath) {
-          //   setTimeout(() => {
-          //     location.href =
-          //       location.origin +
-          //       '/mmsweb/attach/downLoadAttach?fileName=result.xls&storePath=' +
-          //       data.data.resultFilePath
-          //   }, 300)
-          // }
-        })
     }
   }
 }

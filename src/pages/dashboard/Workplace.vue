@@ -128,7 +128,7 @@ export default {
     HeadInfo,
     Radar
   },
-  data () {
+  data() {
     return {
       timeFix: timeFix(),
       avatar: '',
@@ -184,11 +184,11 @@ export default {
       nickname: (state) => state.user.nickname,
       welcome: (state) => state.user.welcome
     }),
-    userInfo () {
+    userInfo() {
       return this.$store.getters.userInfo
     }
   },
-  created () {
+  created() {
     this.user = this.userInfo
     this.avatar = this.userInfo.avatar
 
@@ -200,33 +200,33 @@ export default {
       // console.log('workplace -> call getServiceList()', res)
     })
   },
-  mounted () {
+  mounted() {
     this.getProjects()
     this.getActivity()
     this.getTeams()
     this.initRadar()
   },
   methods: {
-    getProjects () {
+    getProjects() {
       this.$http.get('/list/search/projects')
         .then(res => {
           this.projects = res.result && res.result.data
           this.loading = false
         })
     },
-    getActivity () {
+    getActivity() {
       this.$http.get('/workplace/activity')
         .then(res => {
           this.activities = res.result
         })
     },
-    getTeams () {
+    getTeams() {
       this.$http.get('/workplace/teams')
         .then(res => {
           this.teams = res.result
         })
     },
-    initRadar () {
+    initRadar() {
       this.radarLoading = true
 
       this.$http.get('/workplace/radar')

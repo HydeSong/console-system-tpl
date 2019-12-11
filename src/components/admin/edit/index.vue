@@ -56,7 +56,7 @@
             :style="{width:item.width||'auto'}"
             @created="(val)=>{item.created?item.created(val):''}"
             @notify="val=>item.notify?item.notify(val):''"
-            @change="(val)=>{validateItem(form[item.prop],item);if(item.change)item.change(val);}"
+            @change="(val)=>{validateItem(form[item.prop],item);if (item.change)item.change(val);}"
             v-model="form[item.prop]"
             :form="form"
             :is-edit-item="true"
@@ -79,7 +79,7 @@
             v-else-if="item.type==='checkbox'"
             v-model="form[item.prop]"
             @created="(val)=>{item.created?item.created(val):''}"
-            @change="(val)=>{validateItem(form[item.prop],item);if(item.change)item.change(val);}"
+            @change="(val)=>{validateItem(form[item.prop],item);if (item.change)item.change(val);}"
             :is-edit-item="true"
             :ref="item._key"
             :item="item"
@@ -92,7 +92,7 @@
             >{{ itm.label }}</a-checkbox>
           </my-checkbox-group>
           <a-select
-            v-else-if="item.choice&&(typeof(item.choice)==='function')"
+            v-else-if="item.choice&& (typeof(item.choice)==='function')"
             v-model="form[item.prop]"
             :mode="item.multi?'multiple':undefined"
             :style="{width:dialogFormItemWidth}"
@@ -289,7 +289,7 @@ export default {
   componentName: 'Edit',
   props: {
     editFields: {
-      type: Array | Function,
+      type: Array,
       default() {
         return []
       }
@@ -302,7 +302,7 @@ export default {
      * 用于表单嵌套的场景
      */
     pvalue: {
-      type: Object | String | Number,
+      type: Object,
       default: null
     },
     form: {
