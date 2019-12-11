@@ -92,11 +92,11 @@
         </a-form>
         <div
           v-show="showFilterExpan&&!compact"
-          style="text-align:center;margin-bottom:-20px;margin-right:10%"
+          style="text-align:center;margin-bottom:-22px;margin-right:10%"
         >
           <span
             type="down"
-            style="background:#Fff;padding:0px 20px 3px;font-size:12px;border:1px solid #e8ebee;border-top:none;border-radius:3px"
+            style="background:#Fff;padding:0px 20px 3px;font-size:12px;border:1px solid #e8ebee;border-top:none;border-radius: 0 0 2px 2px;"
             @click="filterExpan=!filterExpan"
           >
             <a style="color:#0063b8">{{ filterExpan?'收起':'展开' }}</a>
