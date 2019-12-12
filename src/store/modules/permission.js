@@ -50,15 +50,27 @@ function filterAsyncRouter(routerMap, roles) {
   return accessedRouters
 }
 
+function getRouters(routers, result) {
+  routers.forEach((router) => {
+    result[router.path] = router
+    if (router.children) {
+      getRouters(router.children, result)
+    }
+  })
+}
+
 const permission = {
   state: {
     routers: constantRouterMap,
-    addRouters: []
+    addRouters: [],
+    routerMap: {}
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
+      // 存储router
+      getRouters(routers, state.routerMap)
     }
   },
   actions: {
