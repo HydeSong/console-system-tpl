@@ -35,7 +35,7 @@ export const asyncRouterMap = [
         name: 'demo',
         redirect: '/demo/specification',
         component: PageView,
-        meta: { title: '我是DEMO', icon: 'tool', keepAlive: true },
+        meta: { title: 'admin 组件 DEMO', icon: 'tool', keepAlive: true },
         children: [
           {
             path: '/demo/specification',
