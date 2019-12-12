@@ -100,7 +100,7 @@ export default {
           },
           fontSize(d) {
             if (d.value) {
-              return ((d.value - min) /(max - min)) *(32 - 8) + 8
+              return ((d.value - min) / (max - min)) * (32 - 8) + 8
             }
             return 0
           }

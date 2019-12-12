@@ -24,7 +24,7 @@ export const asyncRouterMap = [
             path: '/home/welcome',
             name: 'home-welcome',
             component: () => import(/* webpackChunkName: "home" */ '@/pages/Home.vue'),
-            meta: { title: '首页', keepAlive: false, hiddenHeaderContent: true }
+            meta: { title: '欢迎', keepAlive: false, hiddenHeaderContent: true }
           }
         ]
       },

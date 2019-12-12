@@ -1,0 +1,8 @@
+{
+  "核心库": {
+    "filedFile": "core-database.js"
+  },
+  "报备": {
+    "filedFile": "mer-report.js"
+  }
+}

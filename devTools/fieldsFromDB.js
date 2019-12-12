@@ -3,7 +3,7 @@
 
 var mysql = require('mysql')
 var connection = mysql.createConnection({
-  host: '10.177.93.150',
+  host: '10.177.214.188',
   user: 'app',
   password: 'app',
   database: 'mms_task_db'
@@ -22,7 +22,7 @@ function toLine(name) {
 
 function queryTable(tableName) {
   connection.connect()
-
+  console.log('success connect')
   connection.query(`SELECT column_name as prop,COLUMN_COMMENT as label FROM information_schema.columns WHERE TABLE_NAME="${tableName}";`, function(error, results, fields) {
     if (error) throw error
     console.log('The solution is: ', results)

@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const createThemeColorReplacerPlugin = require('./config/plugin.config')
+const devTools = require('./dev-tools')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -92,16 +93,36 @@ const vueConfig = {
   },
 
   devServer: {
-    // development server port 8000
-    port: 8000
-    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
-    // proxy: {
-    //   '/api': {
-    //     target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
-    //     ws: false,
-    //     changeOrigin: true
-    //   }
-    // }
+    open: true,
+    host: '0.0.0.0',
+    port: 8000,
+    https: false,
+    hotOnly: false,
+    // public: `localhost:8080`,
+    proxy: {
+      '/mmsweb': {
+        // target: 'http://10.177.36.164:8082',
+        target: 'http://10.177.93.138:8082', // 你要跨域的地址
+        bypass: function(req, res, proxyOptions) {
+          var cookies = req.headers.cookie
+          // console.log(cookies)
+          if (cookies) {
+            for (const str of cookies.split(';')) {
+              const arr = str.split('=')
+              if (arr[0].trim() === 'mmsWebSessionId2') {
+                res.setHeader('Set-Cookie', `mmsWebSessionId=${arr[1]};httpOnly;expires=Session;Path=/`)
+              }
+            }
+          }
+        },
+        // ws: true,
+        changOrigin: true
+        // pathRewrite: {'^/pam/srv': '/srv'}
+      }
+    },
+    setup(app) {
+      devTools.register(app)
+    }
   },
 
   // disable source map in production

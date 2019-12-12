@@ -1,0 +1,12 @@
+{
+  "selector": [{
+    "name": "机构选择",
+    "code": "require('@/components/a-selects/org').default",
+    "formatter": " return { label: val.orgName, value: val.orgId }; "
+  }],
+  "formViews": [{
+    "name": "addr",
+    "code": "require('@/components/a-selects/org').default",
+    "formatter": " return { label: val.orgName, value: val.orgId }; "
+  }]
+}
