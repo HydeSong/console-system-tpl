@@ -99,7 +99,7 @@
             style="background:#Fff;padding:0px 20px 3px;font-size:12px;border:1px solid #e8ebee;border-top:none;border-radius: 0 0 2px 2px;"
             @click="filterExpan=!filterExpan"
           >
-            <a style="color:#0063b8">{{ filterExpan?'收起':'展开' }}</a>
+            <a style="color:#1890ff">{{ filterExpan?'收起':'展开' }}</a>
           </span>
         </div>
       </div>
